@@ -1,0 +1,100 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage[utf8]{vietnam}
+\usepackage{amsmath
+}
+\usepackage{setspace}
+\renewcommand{\baselinestretch}{1.2}
+
+
+\title{DTTT2-BT1}
+\author{DƯƠNG QUỐC DŨNG - 20213835}
+\date{October 2024}
+
+
+
+
+
+
+
+
+
+
+
+
+
+\begin{document}
+
+\maketitle
+
+\section{Đề bài}
+
+Một bộ khuếch đại có công suất điểm nén 1dB đầu vào là -10 dBm và hệ số khuếch đại công suất Gain là 15 dB. Mắc nối tiếp bộ khuếch đại nói trên với 1 mixer có công suất điểm nén 1dB là 0 dBm. Tính công suất điểm nén 1dB của hệ thống (theo dBm) và giải thích kết quả. 
+
+\section{Bài giải}
+Biến đổi công thức,
+Ta có công thức phi tuyến với điểm chặn bậc 3:
+
+\begin{equation}
+\Large
+       \frac{1}{A^2}  = \frac{1}{A_{ip31}^2}  + \frac{\alpha_1^2}{A_{ip32}^2}   
+\end{equation}
+
+Ta lại có công thức điểm nén 1dB:
+\begin{equation}
+\Large
+       Ạ_{1dB} = \sqrt{0.145 \times  |\frac{\alpha_1}{\alpha_2}|  }   
+\end{equation}
+
+Và công thức điểm chặn bậc 3:
+\begin{equation}
+    \Large
+    A_{ip3} = \sqrt{ \frac{4}{3} \times  |\frac{\alpha_1}{\alpha_2}| }
+\end{equation}
+
+Vì vậy, từ (3) và (4) ta có thể  suy ra rằng:
+\begin{equation}
+    \Large
+    A_{ip3} \propto A_{1dB}
+\end{equation}
+
+Ta lại có công thức của công suất điểm nén 1dB:
+\begin{equation}
+    \Large
+    P_{1dB} = \frac{A_{1dB}^2}{4R}
+\end{equation}
+
+Từ (5) và (6), ta có thể suy ra:
+\begin{equation}
+    \Large
+    P_{1dB} \propto A_{ip3}^2
+\end{equation}
+
+Từ (7) ta biến đổi (2), ta có phương trình mới như sau:
+\begin{equation}
+    \Large
+    \frac{1}{P_{1dB System}}  = \frac{1}{P_{1dB Out}}  + \frac{A_1}{P_{1dB Mixer}}   
+\end{equation}
+
+Chuyển đổi công suất :
+\begin{align}
+    \LARGE 
+    P_{1db,out} = -10dBm = 10^\frac{-10}{10} mW = 0,1 mW \\
+    P_{1dB,mixer} = 0dBm = 10^\frac{0}{10} mW = 1 mW \\
+    A_1 = 15db = 10^\frac{15}{10} lần 
+\end{align}
+
+Thay số vào công thức:
+\begin{equation}
+    \Large
+    \frac{1}{P_{1dBSystem}}  = \frac{1}{0,1}  + \frac{10^\frac{15}{10}}{1}
+\end{equation}
+Ta được kết qủa :
+\begin{equation}
+    \Large
+    P_{1dBSystem} = 0,024mW = 10 \times \log{0.024} = -16 dBm
+\end{equation}
+
+
+
+\end{document}

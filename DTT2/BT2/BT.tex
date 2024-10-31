@@ -1,0 +1,359 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage[utf8]{vietnam}
+\usepackage{amsmath}
+\usepackage{setspace}
+\renewcommand{\baselinestretch}{1.2}
+\usepackage{graphicx}
+\usepackage{tocbibind} 
+\usepackage{hyperref}
+
+
+\hypersetup{
+    colorlinks=true, % Kích hoạt màu cho liên kết
+    linkcolor=black, % Màu liên kết nội bộ (trong tài liệu)
+    urlcolor=black,  % Màu liên kết trang web
+    citecolor=black, % Màu liên kết trích dẫn
+    pdfborder={0 0 0}, % Không có viền
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\begin{document}
+
+
+
+% Trang bìa
+\begin{titlepage}
+    \centering
+    \vspace{0.5cm}
+
+    \LARGE
+    Trường Đại Học Bách Khoa Hà Nội
+
+    \LARGE
+    \textbf{VIỆN ĐIỆN TỬ - VIỄN THÔNG}
+    
+%\vspace{1.2cm}
+%\includegraphics[width=0.5\textwidth]{Screenshot from 2024-10-29 21-01-20.png} % Thay %logo.png bằng tên tệp hình ảnh của bạn
+
+
+    \vspace{1cm}
+
+    \textbf{BÁO CÁO}
+
+    \vspace{0.2cm}
+    \LARGE
+    \textbf{\fontsize{19}{24}\selectfont Tính toán phối hợp trở kháng chữ L}
+
+    \vspace{0.2cm}
+    \LARGE
+
+    \begin{center}
+        
+    
+    \textbf{Họ và Tên: Dương Quốc Dũng}
+    
+    \textbf{MSSV: 20213835}
+    
+    \end{center}
+    
+   
+
+\end{titlepage}
+
+
+
+\tableofcontents
+\listoffigures
+\newpage
+
+
+
+
+
+
+\section{Cơ sở lý thuyết chuyển đổi từ song song sang nối tiếp cho L và R}
+
+\begin{equation}
+\Large
+       Z_{in} = Z_{c} // (Z_{l} nt R_{l}) => R_{l}+Z_{l} = R_{c}
+\end{equation}
+
+Ta có 
+
+\begin{equation}
+\Large
+       R_{s} + s.L_{s} = \frac{R_{P}.L_{P}.s }{R_{P}+L_{P}}
+\end{equation}
+
+Khai triển biểu thức trên 
+\begin{equation}
+\Large
+       (R_{s} + s.L_{s}) x (R_{P}+L_{P}) = R_{P}.L_{P}.s 
+\end{equation}
+
+
+\begin{equation}
+\Large
+       (R_{s} + jw.L_{s}) x (R_{P}+L_{P}) = R_{P}.L_{P}.jw 
+\end{equation}
+
+Từ đó ta có hệ phương trình 
+\begin{equation}
+\Large
+    R_{s}.R_{p} - L_{s}.L_{p}.w^2 =0 
+\end{equation}
+
+\begin{equation}
+\Large
+    R_{s}.L_{p}.jw - L_{s}.R_{p}.jw =   R_{P}.L_{P}.jw
+\end{equation}
+
+Ta có (6) rút gọn :
+
+
+\begin{equation}
+\Large
+    Q_{s} = Q_{p} => \frac{Lw}{R_{s}} = \frac{R_{p}}{L_{p}w}
+\end{equation}
+
+\begin{equation}
+\Large
+    R_{s}.L_{p}.w - L_{s}.R_{p}.w =   R_{P}.L_{P}.w
+\end{equation}
+
+
+Biến đổi biểu thức (8) theo (7) ta được:
+
+\begin{equation}
+\Large
+1+ \frac{L_{s}.w}{R_{s}} . \frac{R_{p}}{L_{p}.w}  = \frac{R_{p}. L_{p}.w}{R_{s}.L_{p}.w} 
+\end{equation}
+
+\begin{equation}
+\Large
+1+ Q^2 = \frac{R_{p}}{R_{s}} 
+\end{equation}
+
+Biến đổi tương tự ta có :
+
+
+\begin{equation}
+\Large
+1+ \frac{1}{Q^2} = \frac{L_{p}}{L_{s}} => L_{p} = L_{s} . \frac{Q^2}{Q^2+1}
+\end{equation}
+
+
+
+
+
+
+\section{Bài tập với các trường hợp mạch Phối hợp trở khảng chữ L với các trường hợp a,b,c}
+
+\subsection{Trường hợp b}
+Cho đề bài RL = 50 ohm , Zin = 25 ohm , F = 5 Ghz, Re{Zin} < Rl 
+Có Rl > Re{Zin} , ta dùng phương pháp PHTK , như sau :
+
+
+
+Áp dụng biến đổi trở khảng  thụ động cho L1 và Rl ở mạch // ta có mạch NT:
+
+
+% \begin{figure}[ht]
+%     \centering
+%     \includegraphics[width=0.8\textwidth]{Screenshot from 2024-10-29 20-07-22.png}
+%     \caption{LP->LS}
+%     \label{fig:ten_label}
+% \end{figure}
+
+
+
+
+
+Hệ phương trình như sau 
+
+\begin{equation}
+\Large
+Q_{p} = Q_{s} = Q
+\end{equation}
+
+\begin{equation}
+\Large
+L_{p} = L_{s} . \frac{Q^2}{Q^2+1}(L1=Lp)
+\end{equation}
+
+\begin{equation}
+\Large
+ R_{p} = R_{s} (Q^2+1)
+\end{equation}
+
+Từ mạch b, Ta có:
+
+\begin{equation}
+\Large
+Z_{in} = R_{s} + Z_{Ls} + Z_{C1} = \frac{R_{p}}{Q^2+1} + L_{p}.\frac{Q^2+1}{Q^2} + Z_{C1} 
+\end{equation}
+
+\begin{equation}
+\Large
+\frac{R_{p}}{Q^2+1} = Re{Z_{in}} =>  Q = 1 = \frac{R_{p}}{Lw} => R_{l} = Lw
+\end{equation}
+
+\begin{equation}
+\Large
+=> L1 = \frac{R_{l}}{w} = \frac{50}{2.\pi.5.10^6} = 1,59 . 10^-6
+\end{equation}
+
+
+\begin{equation}
+\Large
+\frac{1}{jC_{1}w_{1}} = -jwL_{s} => C_{1} = \frac{1}{w^2.L_{s}} => C_{1} = 31.86 (pF)
+\end{equation}
+
+
+
+
+\subsection{Trường hợp c}
+Ta có Zin = 100 ohm , F = 56 hz , Rl = 50 ohm 
+Có Rl < Re{Zin} , ta dùng phương pháp PHTK , như sau :
+Áp dụng biến đổi trở khảng  thụ động cho L1 và C1 ở mạch (1), ta có (2):
+
+% \begin{figure}[ht]
+%     \centering
+%     \includegraphics[width=0.8\textwidth]{Screenshot from 2024-10-29 20-08-12.png}
+%     \caption{LS->LP}
+%     \label{fig:ten_label}
+% \end{figure}
+
+
+Hệ phương trình như sau 
+
+\begin{equation}
+\Large
+Q_{p} = Q_{s} = Q
+\end{equation}
+
+\begin{equation}
+\Large
+L_{p} = L_{s} . \frac{Q^2}{Q^2+1}(L_{s} = L_{1})
+\end{equation}
+
+\begin{equation}
+\Large
+ R_{p} = R_{s} (Q^2+1) (R_{s} = R_{1})
+\end{equation}
+
+Từ mạch b ta có: 
+
+\begin{equation}
+\Large
+ \frac{1}{Z_{in}} = \frac{1}{R_{p}} + \frac{1}{L_{p}.jw} + jw.C_{1}
+\end{equation}
+
+
+\begin{equation}
+\Large
+Re{\frac{1}{Z_{in}}} = \frac{1}{R_{p}} => \frac{1}{100} = \frac{1}{50.(Q^2+1)} => Q_{s} = 1
+\end{equation}
+
+\begin{equation}
+\Large
+=> \frac{Lw}{R_{l}} = 1 => L_{1} = \frac{50}{2.\pi.5.10^6} = 1,59 . 10^-6 
+\end{equation}
+
+\begin{equation}
+\Large
+=> L_{p} = 2.L_{s} = 2.L_{1} = 3,18.10^-6 (H)
+\end{equation}
+
+
+\begin{equation}
+\Large
+Lại có :
+\frac{1}{L_{p}.jw} + jw.C_{1} = 0 => w^2.C_{1}.L_{p} = 1 => C_{1} = 31.86 pF
+\end{equation}
+
+
+\subsection{Trường hợp D}
+Zin = 100 ohm , Rl= 50 ohm, F= 5GHz
+Có Rl < Re{Zin} , ta dùng phương pháp PHTK , như sau :
+
+Áp dụng biến đổi trở khảng  thụ động cho L1 và C1 ở mạch (1), ta có (2):
+% \begin{figure}[ht]
+%     \centering
+%     \includegraphics[width=0.8\textwidth]{add.png}
+%     \caption{Cs->Cp}
+%     \label{fig:ten_label}
+% \end{figure}
+Hệ phương trình như sau 
+
+\begin{equation}
+\Large
+Q_{p} = Q_{s} = Q
+\end{equation}
+
+\begin{equation}
+\Large
+C_{p} = C_{s} . \frac{Q^2}{Q^2+1} (C_{s} = C_{1})
+\end{equation}
+
+\begin{equation}
+\Large
+ R_{p} = R_{s} (Q^2+1) (R_{s} = R_{1})
+\end{equation}
+
+
+Từ mạch b ta có: 
+
+\begin{equation}
+\Large
+ \frac{1}{Z_{in}} = \frac{1}{R_{p}} + \frac{1}{L_{1}.jw} + jw.C_{p}
+\end{equation}
+
+
+\begin{equation}
+\Large
+Re{\frac{1}{Z_{in}}} = \frac{1}{R_{p}} => \frac{1}{100} = \frac{1}{50.(Q^2+1)} => Q_{s} = 1
+\end{equation}
+
+\begin{equation}
+\Large
+=> \frac{1}{C_{1}w} = R_{s} => C_{1} = \frac{1}{w.R_{l}} = 6,36. 10^-10 =63.6(pF)
+\end{equation}
+
+
+\begin{equation}
+\Large
+=> C_{p} = \frac{1}{2} . C_{s} => C_{p} = 31,8 (pF)
+\end{equation}
+
+Lại có:
+\begin{equation}
+\Large
+=> \frac{1}{L_{1}.jw} + jw.\phi =0 => 1 = w^2.L_{1}.C_{p} => L_{1} = \frac{1}{w^2.C_{p}} = 3.18 (\mu H)
+\end{equation}
+
+\end{document}
+
+
+
+
+
+
+

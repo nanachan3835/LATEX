@@ -1,0 +1,1276 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[vietnamese]{babel}
+\usepackage{graphicx}
+\usepackage{setspace}
+\renewcommand{\baselinestretch}{1.0}
+\usepackage{array}
+\usepackage[colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue, linkbordercolor={1 1 1}]{hyperref}
+
+
+
+
+
+\title{NSO-Cloud Report}
+\author{Dương Quốc Dũng}
+\date{26/9/2024}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\section{Ảo hóa}
+\subsection{ Ảo hóa là gì}
+Ảo hóa là một công nghệ nền tảng, cho phép chúng ta tạo ra các phiên bản ảo của các tài nguyên máy tính vật lý. Thay vì sử dụng một máy tính vật lý riêng cho mỗi ứng dụng, chúng ta có thể chia sẻ một máy vật lý cho nhiều hệ thống ảo, giúp tối ưu hóa tài nguyên và linh hoạt hơn trong quản lý.
+
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1.0\textwidth]{image/virtualize/what-is-a-virtualization-techology.png}
+    \caption{Công nghệ ảo hóa máy tính}
+    \label{}
+\end{figure}
+
+
+
+
+
+Ví dụ:
+
+\textbf{Máy ảo}: Bạn có thể tạo ra nhiều máy ảo trên một máy chủ vật lý, mỗi máy ảo chạy một hệ điều hành khác nhau (ví dụ: Windows, Linux).
+
+\textbf{Mạng ảo}: Bạn có thể chia một mạng vật lý thành nhiều mạng ảo, mỗi mạng ảo phục vụ cho một mục đích khác nhau (ví dụ: mạng nội bộ, mạng khách hàng).
+
+\textbf{Lưu trữ ảo}: Bạn có thể tạo ra các ổ đĩa ảo để lưu trữ dữ liệu, cho phép bạn quản lý và chia sẻ dữ liệu một cách linh hoạt hơn.
+
+
+\subsection{ Cách một trình ảo hóa hoạt động}
+Một trình ảo hóa hoạt động bằng cách chia ra làm các tầng quản lý chính và mỗi tầng sẽ có một chức năng riêng, các chức năng của các tầng sẽ liên kết với nhau để có thể khiến trình ảo hóa hoạt động 
+
+\begin{enumerate}
+    \item \textbf{Lớp phần cứng}: là sever vật lý bao gồm những tài nguyên phần cứng như CPU, bộ nhớ, lưu trữ, network
+    \item \textbf{Lớp hypervisor}: là lớp phần giao tiếp với máy tính vật lý và chịu trách nghiệm tạo và quản lý các chức năng ảo hóa
+    \item \textbf{Lớp máy ảo}: Các hệ điều hành được phân chia các tài nguyên vật lý bởi hypervisor có trách nghiệm chạy các ứng dụng (VM) 
+\end{enumerate}
+
+
+
+
+
+
+
+\subsection{Lợi ích của việc sử dụng ảo hóa}
+\textbf{1.Tăng hiệu quả sử dụng tài nguyên:}\\ 
+Nhiều hệ thống ảo có thể chia sẻ các tài nguyên của một máy vật lý, giúp tiết kiệm chi phí phần cứng và năng lượng.
+
+
+\noindent \textbf{2.Linh hoạt và dễ quản lý:}\\
+Bạn có thể dễ dàng tạo, sao chép, di chuyển và xóa các hệ thống ảo, giúp cho việc quản lý hệ thống trở nên linh hoạt hơn.
+
+
+\noindent \textbf{3.Tăng tính sẵn sàng}: \\
+Khi một hệ thống ảo gặp sự cố, bạn có thể dễ dàng khôi phục lại từ một bản sao lưu.
+
+
+\noindent \textbf{4.Giảm chi phí}: \\
+Ảo hóa giúp giảm chi phí mua sắm, vận hành và bảo trì phần cứng.
+
+
+\section{Hypervisor}
+\subsection{Hypervisor là gì?}
+Hypervisor là một phần mềm, chương trình cơ sở hoặc phần cứng máy tính có chức năng tạo ra và quản lý các máy ảo (virtual machine). Nó đóng vai trò như một lớp trung gian giữa phần cứng vật lý và các hệ điều hành ảo, cho phép nhiều hệ điều hành khác nhau chạy đồng thời trên cùng một máy tính vật lý.
+Đây chính là cốt lỗi của công nghệ ảo hóa.\\
+
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1.0\textwidth]{image/hypervisor/what-is-hypervisor-1024x536.jpg}
+    \caption{hypervisor là gì}
+    \label{}
+\end{figure}
+
+
+\subsection{Nguyên lý hoạt động của Hypervisor}
+\noindent Cách mà một hypervisor hoạt động
+\begin{enumerate}
+\item \textbf{Tạo lớp trừu tượng}
+\begin{itemize}
+\item Hypervisor tạo ra một lớp trừu tượng giữa phần cứng và các VM.
+\item Nó cung cấp cho mỗi VM một giao diện phần cứng ảo (virtual hardware)
+\item Giao diện này bao gồm CPU ảo, bộ nhớ ảo, thiết bị lưu trữ ảo, card mạng ảo, v.v.
+\end{itemize}
+\item \textbf{Phân chia tài nguyên}
+\begin{itemize}
+\item Hypervisor chia sẻ các tài nguyên vật lý của máy chủ (CPU, RAM, ổ cứng) thành các phần nhỏ hơn và phân bổ cho từng VM.
+\item MViệc phân bổ này có thể được thực hiện tĩnh (cố định trước) hoặc động (thay đổi theo thời gian thực dựa trên nhu cầu của từng VM).
+\end{itemize}
+\item \textbf{Quản lý các VM:}
+\begin{itemize}
+\item Hypervisor quản lý việc khởi động, dừng, khôi phục và di chuyển các VM.
+\item Nó cũng chịu trách nhiệm quản lý các tài nguyên được cấp phát cho mỗi VM, đảm bảo rằng các VM không xung đột với nhau.
+\end{itemize}
+\item \textbf{Giao tiếp với phần cứng}
+\begin{itemize}
+\item Hypervisor giao tiếp trực tiếp với phần cứng và chuyển đổi các yêu cầu từ các VM thành các lệnh mà phần cứng có thể hiểu được.
+\item khi một VM muốn truy cập vào đĩa cứng, hypervisor sẽ chuyển đổi yêu cầu này thành một lệnh đọc/ghi đĩa và gửi đến bộ điều khiển đĩa.
+\end{itemize}
+\end{enumerate}
+
+
+
+\subsection{ Các loại hypervisor}
+Có hai loại Hypervisor chính gồm: “Loại 1” (“Bare-metal”) và “Loại 2” (“Hosted”). Hypervisor loại 1 đóng vai trò
+như một hệ điều hành nhẹ và chạy trưc tiếp trên phần cứng của máy chủ, trong khi Hypervisor loại 2 chạy dưới dạng
+một lớp phần mềm trên hệ điều hành tương tự như các chương trình máy tính khác.
+
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1.0\textwidth]{image/hypervisor/hypervisor-types.png}
+    \caption{các loại hypervisor}
+    \label{}
+\end{figure}
+
+\subsubsection{Hypervisor loại 1}
+Hypervisor loại 1 chạy trực tiếp trên phần cứng máy chủ, loại bỏ nhu cầu về hệ điều hành cơ bản. Chúng thường
+được sử dụng trong các trung tâm dữ liệu, trên phần cứng máy chủ hiệu suất cao được thiết kế để chạy nhiều máy
+ảo. Hypervisor loại này chủ yếu được sử dụng trong môi trường kinh doanh để ảo hóa các dịch vụ của công ty. Phần
+cứng mà Hypervisor loại 1 được cài đặt không cần màn hình để xuất video vì tất cả các hoạt động quản lý đều được
+thực hiện qua giao diện web nhúng. Hypervisor loại 1 cung cấp hiệu suất tốt hơn do chúng chạy trực tiếp trên phần
+cứng cơ bản và không phụ thuộc vào hệ điều hành của máy chủ.
+
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1.0\textwidth]{image/hypervisor/hypervisor type/type-1-hypervisor-diagram-update.png}
+    \caption{HYPERVISOR loại 1}
+    \label{}
+\end{figure}
+
+
+
+
+Đặc điểm của hypervisor loại 1:
+\begin{itemize}
+\item Cài đặt trực tiếp lên phần cứng, không cần một hệ điều hành chủ.
+\item Hiệu suất cao, tận dụng tối đa tài nguyên phần cứng vì không phải chạy thông qua 1 hệ điều hành chủ
+\item Độ ổn định và bảo mật tốt.
+\end{itemize}
+
+\textbf{Ưu điểm} 
+\begin{itemize}
+\item Hiệu năng cao, đáp ứng được các yêu cầu về tính toán phức tạp.
+\item Khả năng quản lý nhiều máy ảo lớn.
+\item Độ tin cậy cao, thích hợp cho các môi trường sản xuất,sever.
+\end{itemize}
+
+\textbf{Nhược điểm}
+\begin{itemize}
+\item Quá trình cài đặt và cấu hình phức tạp hơn.
+\item Ít linh hoạt so với hypervisor loại 2.
+\item do không chạy thông qua một hệ điều hành chủ nên khi muốn quản lý phải thông qua một monitor từ bên ngoài 
+\end{itemize}
+
+
+\subsubsection{Hypervisor loại 2}
+Hypervisor loại 2 chạy trên các hệ điều hành được hỗ trợ và sử dụng trình điều khiển của hệ điều hành để giao tiếp
+với phần cứng. Trên thực tế, hypervisor Type-2 chạy bên trong hệ điều hành như các ứng dụng khác và chia sẻ tài
+nguyên với chúng. Hypervisor loại 2 được thiết kế để chạy trên một máy tính duy nhất và không hỗ trợ cụm hoặc
+một số tính năng khác (tổ chức lưu trữ ảo, truy cập nhiều người dùng và quản lý, v.v.) ngoại trừ ảo hóa. Hypervisor
+loại 2 chủ yếu được sử dụng trên máy tính cá nhân và máy trạm cho các môi trường hệ điều hành bổ sung.
+
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1.0\textwidth]{image/hypervisor/hypervisor type/type-2-hypervisor-diagram-update.png}
+    \caption{HYPERVISOR loại 2}
+    \label{}
+\end{figure}
+
+
+
+
+
+Đặc điểm của hypervisor loại 2:
+\begin{itemize}
+\item Được cài đặt như một ứng dụng trên một hệ điều hành chủ.
+\item Dễ sử dụng và cấu hình.
+\item Không phụ thuộc vào phần cứng của thiết bị    
+\end{itemize}
+
+\textbf{Ưu điểm} 
+\begin{itemize}
+\item Dễ dàng cài đặt và sử dụng,có thể quản lý thông qua trình ảo hóa. 
+\item Dễ  tiếp cận và có nhiều nguồn tài liệu hướng dẫn chi tiết
+\end{itemize}
+
+\textbf{Nhược điểm}
+\begin{itemize}
+\item Hiệu năng thấp hơn so với hypervisor loại 1.
+\item Ít ổn định và bảo mật hơn. Do chạy trên hệ điều hành như một ứng dụng nên khi gặp sự cố  sẽ bị ảnh hưởng tới máy chủ.
+\item Tốn nhiều tài nguyên hệ thống hơn do phải chạy thông qua hệ điều hành chủ.
+\end{itemize}
+\subsubsection{ Bảng so sánh nhanh 2 loại hypervisor}
+
+
+
+
+
+
+
+
+\subsection{ Lợi ích của hypervisor}
+\begin{itemize}
+\item \textbf{Tăng hiệu quả phần cứng}: Máy chủ ảo hóa cung cấp cho hệ thống máy tính vật lý khả năng chạy nhiều hệ
+điều hành khách cùng với nhau. Sự gia tăng về lượng sử dụng giúp mở rộng đáng kể khả năng của phần cứng
+và cải thiện hiệu quả của thiết bị.
+\item \textbf{Tính di động nâng cao}: Bằng cách tách các máy ảo khỏi phần cứng máy chủ cơ bản, các trình ảo hóa biến
+chúng trở nên độc lập, cũng như vô hình với nhau. Điều này giúp cho việc di chuyển trực tiếp các máy ảo trở
+nên khả thi, cùng lúc đó cho phép di chuyển các máy ảo giữa các máy vật lý khác nhau và các máy chủ ảo
+hóa từ xa mà không cần dừng chúng, từ đó cho phép chuyển đổi dự phòng và cân bằng tải.
+\item \textbf{Cải thiện bảo mật}: Các máy ảo chạy trên cùng một máy chủ nhưng được tách biệt về mặt logic với nhau, do
+đó nó không phụ thuộc vào các máy ảo khác. Mọi sự cố, tấn công hoặc phần mềm độc hại trên một máy ảo
+sẽ không ảnh hưởng đến những máy ảo khác.
+\end{itemize}
+
+
+\subsection{ Một số nhược điểm của hypervisor}
+\begin{itemize}
+    \item Chi phí tài nguyên và hiệu suất : Mỗi máy ảo yêu cầu một lượng tài nguyên nhất định (RAM, CPU, ổ cứng) và việc chạy nhiều máy ảo trên cùng một máy chủ có thể dẫn đến sự cạn kiệt tài nguyên, làm ảnh hưởng đến cả máy chủ vật lý và các máy ảo khác, gây ra giảm hiệu năng.
+    \item Độ phức tạp trong quản lý: Quản lý nhiều máy ảo và theo dõi tài nguyên của chúng có thể trở nên phức tạp, đặc biệt trong các môi trường lớn. Điều này đòi hỏi các công cụ quản lý mạnh mẽ và đội ngũ nhân sự có kiến thức chuyên môn cao.
+    \item Tính tương thích phần cứng hạn chế: Một số ứng dụng hoặc hệ điều hành yêu cầu truy cập trực tiếp đến phần cứng, điều mà máy ảo không thể cung cấp do cơ chế ảo hóa. Điều này làm hạn chế việc triển khai những ứng dụng yêu cầu cao về tài nguyên phần cứng đặc thù.
+\end{itemize}
+
+
+
+\section{Virtual machine}
+\subsection{ Virtual machine là gì}
+
+
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1.0\textwidth]{image/virtual machine/virtual-machine.png}
+    \caption{Virtual machine work}
+    \label{fig:ten_hinh}
+\end{figure}
+
+
+Một Virtual Machine (VM hay máy ảo) là một tài nguyên điện toán sử dụng một môi trường ảo hóa để 
+chạy chương trình và triển khai ứng dụng. Một hoặc nhiều các máy ảo khách sẽ chạy trên máy chủ vật lý thông qua hypervisor. Mỗi máy ảo sẽ chạy trên hệ điều hành của riêng nó và hoạt động tách biệt với các máy ảo khác, tuy rằng chúng đang chạy trên cùng một máy chủ. Một số nhà cung cấp máy ảo nổi tiêng có thể kể đến là Virtualbox, QEMU, VMware.
+
+\subsection{ Cách hoạt động của virtual machine}
+Máy ảo sử dụng công nghệ ảo hóa để tạo phần cứng ảo hoặc phiên bản ảo của một hệ điều hành vật lý, thông qua hypervisor một máy chủ vật lý có thể  vận hành và quản lý nhiều máy ảo cùng lúc, mỗi máy ảo chạy trên một phân vùng biệt lập trên máy chủ, tách biệt hoàn toàn vơi các máy ảo khác. Các tài nguyên của máy chủ vật lý được trừu tượng hóa (bộ nhớ, điện toán, lưu trữ) và được cung cấp, phân bổ cho các máy ảo khác khi cần, mang lại sự linh hoạt hơn và tăng hiệu
+quả tổng thể.\\
+
+
+
+
+\subsection{ Phân loại Virtual machine}
+\subsubsection{ System virtual machine}
+
+System Virtual Machine hay máy ảo hệ thống là loại máy ảo mô phỏng các hệ điều hành hoàn chỉnh bằng cách cung
+cấp quyền truy cập vào các tính năng vật lý của máy chủ, chẳng hạn như RAM và bộ lưu trữ. Các máy ảo này được
+đặt trong các phân vùng biệt lập trên máy chủ vật lý hoặc máy trạm tính toán. Mỗi máy có hệ điều hành, cấu hình,
+ứng dụng và dịch vụ độc lập riêng. Điều này được thực hiện thông qua một trình ảo hóa phân bổ tài nguyên từ nhóm
+dùng chung đến các máy ảo cụ thể.
+System VM hoạt động bằng cách Hypervisor sẽ quản lý và chia sẻ tài nguyên phần cứng vật lý cho các máy ảo. Mỗi máy ảo sẽ hoạt động như một máy tính độc lập với hệ điều hành riêng biệt. 
+
+
+\textbf{Ưu điểm}
+\begin{itemize}
+\item Có thể chạy nhiều hệ điều hành đồng thời trên một máy vật lý.
+\item Tối ưu hóa tài nguyên phần cứng.
+\item Mức độ phân lập cao giữa các VM, đảm bảo bảo mật và độ tin cậy.
+\end{itemize}
+
+\textbf{Nhược điểm} 
+\begin{itemize}
+\item Có thể gây ra hiện tượng quá tải tài nguyên nếu không được quản lý hợp lý
+\item Hiệu suất có thể bị giảm do phải phân bổ tài nguyên cho nhiều VM
+\end{itemize}
+
+
+\subsubsection{ Process virtual machine }
+Process Virtual Machine hay máy ảo quy trình, còn được gọi là máy ảo ứng dụng hoặc môi trường thời gian chạy
+được quản lý (Managed Runtime Environments - MRE), là loại máy ảo cho phép thực thi các tác vụ cụ thể như thể
+chúng là các chức năng vốn có hoặc tích hợp của PC. Các máy ảo quy trình được cấu hình để tạm thời thực thi một
+quy trình đơn lẻ dưới dạng một ứng dụng, chẳng hạn như chạy các chương trình Java hoặc sử dụng Microsoft .NET
+Framework. Process VM hoạt động bằng cách để iến trình hoặc ứng dụng được thực thi trên một máy ảo thời gian thực mà không cần hệ điều hành riêng biệt. Máy ảo này tạo ra một lớp trừu tượng giữa phần mềm và nền tảng hệ điều hành đang chạy, giúp ứng dụng có thể hoạt động đồng nhất trên các nền tảng khác nhau.
+
+
+\textbf{Ưu điểm}
+\begin{itemize}
+\item Ứng dụng có thể chạy trên nhiều nền tảng mà không cần thay đổi mã.
+\item PVM có thể xử lý các lỗi và ngoại lệ một cách hiệu quả, cung cấp khả năng phục hồi cho ứng dụng
+\item Tách biệt giữa ứng dụng và phần cứng giúp tăng cường bảo mật.
+\end{itemize}
+
+\textbf{Nhược điểm} 
+\begin{itemize}
+\item Chạy trên PVM có thể chậm hơn so với chạy trực tiếp trên phần cứng do thêm lớp ảo hóa.
+\item Ứng dụng cần phải được biên dịch cho PVM cụ thể, có thể gây khó khăn cho việc chuyển đổi giữa các PVM khác nhau.
+\item Cần quyền tủy cập hơn vào tài nguyên hệ thống và API nhiều hơn so với việc chạy mã trực tiếp trên hệ điều hành 
+\end{itemize}
+
+\subsection{ Lợi ích của Virtual Machine}
+\begin{itemize}
+\item Tăng cường Tính Linh Hoạt:
+Tạo và quản lý dễ dàng: Người dùng có thể dễ dàng tạo, sao lưu, và khôi phục VM theo nhu cầu mà không làm ảnh hưởng đến hệ thống chính.
+\item Cô lập Môi Trường:
+An toàn và bảo mật: Mỗi VM hoạt động độc lập, giúp cô lập các ứng dụng và dịch vụ, giảm thiểu rủi ro xung đột và tấn công.
+\item Khả năng Di động:
+Di chuyển dễ dàng: VM có thể được di chuyển giữa các máy chủ khác nhau mà không cần thay đổi cấu hình hoặc mất dữ liệu.
+\item Bảo trì và Khôi phục:
+Sao lưu và khôi phục nhanh chóng: Việc sao lưu toàn bộ trạng thái của VM giúp khôi phục nhanh chóng trong trường hợp gặp sự cố.
+\item Tiết kiệm Chi phí:
+Giảm thiểu phần cứng: Nhiều VM có thể chạy trên cùng một máy chủ vật lý, giúp tiết kiệm chi phí đầu tư vào phần cứng.
+\item Khả năng Mở Rộng:
+Dễ dàng mở rộng: Khi cần thêm tài nguyên, người dùng có thể dễ dàng thêm VM mới hoặc tăng cường tài nguyên cho các VM hiện có.
+\end{itemize}
+
+
+
+\subsection{ So sánh giữa triển khai ứng dụng cổ điển và triển khai ứng dụng máy ảo}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1.0\textwidth]{image/virtual machine/Screenshot from 2024-10-03 15-43-09.png}
+    \caption{Bảng so sánh giữa sử dụng máy ảo và cách deploy app cũ}
+    \label{fig:ten_hinh}
+\end{figure}
+
+
+
+
+Kết luận:
+Sử dụng máy ảo giúp giảm chi phí, tăng hiệu quả sử dụng tài nguyên, và mang lại tính linh hoạt cao hơn so với cách triển khai ứng dụng trên phần cứng vật lý. Nó đặc biệt hữu ích trong các môi trường doanh nghiệp, nơi cần quản lý nhiều ứng dụng và dịch vụ trên một hệ thống hạ tầng cố định.
+
+
+
+\subsection{ Các ứng dụng của máy ảo trong thực tế}
+\begin{itemize}
+    \item Kiểm thử và phát triển phần mềm :
+Các nhà phát triển thường sử dụng máy ảo để kiểm thử ứng dụng trên các nền tảng hệ điều hành khác nhau mà không cần thiết lập nhiều thiết bị. Máy ảo giúp tái tạo các môi trường phát triển hoặc kiểm thử một cách nhanh chóng, dễ dàng rollback trạng thái nếu cần.
+    \item  Đào tạo và giáo dục
+Trong lĩnh vực giáo dục, máy ảo được sử dụng để mô phỏng các hệ thống mạng hoặc các môi trường phức tạp, cho phép sinh viên hoặc học viên thực hành mà không làm ảnh hưởng đến hệ thống thực. Các trường học và tổ chức đào tạo CNTT thường sử dụng máy ảo để tạo ra các môi trường thực hành an toàn.
+    \item Tối ưu hoá tài nguyên và giảm chi phí phần cứng :
+Do khả năng chạy nhiều máy ảo trên cùng một máy vật lý, việc sử dụng máy ảo giúp giảm thiểu chi phí đầu tư phần cứng, không gian và tiêu thụ năng lượng. Điều này đặc biệt có lợi trong các doanh nghiệp lớn với nhiều máy chủ cần quản lý.
+\item  Ứng dụng trong điện toán đám mây:
+Nền tảng điện toán đám mây (như AWS, Azure, Google Cloud) chủ yếu dựa trên công nghệ máy ảo để cung cấp các tài nguyên điện toán theo yêu cầu. Người dùng có thể tạo và quản lý các máy ảo trên đám mây, chạy các ứng dụng của họ mà không cần đầu tư vào hạ tầng phần cứng.
+\item Phục hồi: Máy ảo giúp tạo ra các bản sao lưu hoặc snapshot nhanh chóng, cho phép phục hồi hệ thống trong trường hợp xảy ra lỗi nghiêm trọng hoặc thảm họa. Việc sao lưu và phục hồi các máy ảo đơn giản hơn nhiều so với hệ thống vật lý, giúp giảm thiểu thời gian downtime và mất mát dữ liệu.
+
+\end{itemize}
+
+\section{ Kubernetes và Docker}
+\subsection{ Containerization}
+\subsubsection{Containerization là gì?}
+Containerization là một công nghệ ảo hóa nhẹ, cho phép chạy ứng dụng và các phụ thuộc của nó trong một môi trường tách biệt. Container chia sẻ hệ điều hành của máy chủ nhưng giữ cho các ứng dụng và môi trường của chúng độc lập với nhau.
+
+\subsubsection{ Kiến trúc container, cách hoạt động và cải tiến so với VM} 
+Container sử dụng kỹ thuật ảo hóa ở mức hệ điều hành (OS-level virtualization). Các container chia sẻ cùng một kernel của hệ điều hành máy chủ, nhưng chúng cô lập ứng dụng và các thư viện phụ thuộc để đảm bảo tính độc lập. 
+Container nhẹ hơn máy ảo vì chúng không cần phải chạy một hệ điều hành đầy đủ, chỉ bao gồm các thành phần cần thiết cho ứng dụng.
+Nói cách khác, trong khi máy ảo mô phỏng toàn bộ hệ điều hành và phần cứng, container chỉ ảo hóa các lớp phần mềm ở tầng ứng dụng và phụ thuộc vào hệ điều hành chủ.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1.0\textwidth]{image/k8s and docker/container .png}
+    \caption{container và virtual machine}
+    \label{fig:ten_hinh}
+\end{figure}
+
+Cách hoạt động của containerization:
+\begin{itemize}
+    \item \textbf{Containers}: Container chứa mã nguồn ứng dụng và các thư viện, phụ thuộc cần thiết để ứng dụng chạy. Mỗi container chạy trong một user space (không gian người dùng) riêng nhưng vẫn sử dụng chung một kernel của hệ điều hành. Container không cần một hệ điều hành đầy đủ như máy ảo, mà chỉ chứa các phần của hệ điều hành cần thiết cho ứng dụng.
+    \item \textbf{Container engine}: Container được quản lý và khởi chạy thông qua một công cụ container engine, phổ biến nhất là Docker. Container engine sẽ đóng gói ứng dụng vào các container và quản lý chúng trên hệ điều hành của máy chủ (host).
+    \item \textbf{Cô lập(isolation)}: Mỗi container chạy riêng biệt, không ảnh hưởng đến các container khác. Sự cô lập này được thực hiện thông qua các tính năng của hệ điều hành như cgroups và namespaces, cho phép quản lý tài nguyên và tách biệt các không gian chạy.
+    \item \textbf{Chia sẻ kernel}: Các container không cần một hệ điều hành hoàn chỉnh như máy ảo. Thay vào đó, chúng chia sẻ cùng một kernel với hệ điều hành của máy chủ, giúp container nhẹ hơn và khởi động nhanh hơn.
+    \item \textbf{Di động}: Các container được đóng gói một cách độc lập và có thể di chuyển dễ dàng giữa các môi trường khác nhau (phát triển, kiểm thử, sản xuất) mà không cần thay đổi mã nguồn hoặc cấu hình.
+\end{itemize}
+Sự khác biệt so với ảo hóa:
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1.0\textwidth]{image/k8s and docker/Screenshot from 2024-10-03 16-02-36.png}
+    \caption{Bảng so sánh giữa containerization và virtualization}
+    \label{fig:ten_hinh}
+\end{figure}
+
+\begin{itemize}
+    \item Kiến trúc:Máy ảo (VM) chạy một hệ điều hành đầy đủ với kernel riêng, trong khi container chỉ đóng gói ứng dụng và chia sẻ kernel với hệ điều hành của máy chủ.
+    \item Hiệu suất: Container nhẹ hơn nhiều so với máy ảo vì chúng không cần một hệ điều hành đầy đủ. Điều này giúp container khởi động nhanh hơn, tiêu thụ ít tài nguyên hơn, và có thể chạy nhiều container hơn trên cùng một máy chủ.
+    \item Linh hoạt: Container dễ dàng di chuyển giữa các môi trường khác nhau mà không cần lo lắng về sự khác biệt của hệ điều hành, vì chúng chia sẻ cùng một kernel. VM thì yêu cầu phải đảm bảo hệ điều hành và cấu hình của máy chủ phù hợp với VM đó.
+    \item Độc lập: Máy ảo có sự cô lập tốt hơn, nhưng container cũng đủ mức cô lập cho nhiều trường hợp sử dụng mà không cần tài nguyên nặng như VM.
+\end{itemize}
+
+
+
+\subsubsection{ Lợi ích của containerization}
+\begin{itemize}
+    \item Nhẹ và hiệu quả :
+Container không cần phải chứa toàn bộ hệ điều hành như máy ảo (VM), thay vào đó chúng chia sẻ kernel với hệ điều hành của máy chủ. Điều này giúp container nhẹ hơn và tốn ít tài nguyên (CPU, RAM, dung lượng đĩa) hơn, cho phép triển khai nhiều container trên cùng một máy chủ mà không tiêu tốn nhiều tài nguyên.
+\item Tốc độ khởi động nhanh :
+Container có thể khởi động trong vài giây vì chúng không cần phải khởi động hệ điều hành đầy đủ, chỉ cần chạy các ứng dụng và thư viện cần thiết. Điều này giúp triển khai và mở rộng quy mô các ứng dụng một cách nhanh chóng.
+\item Tính di động cao :
+Container gói toàn bộ ứng dụng và các phụ thuộc vào một gói đơn lẻ. Do đó, bạn có thể di chuyển ứng dụng giữa các môi trường khác nhau (từ máy tính cá nhân đến máy chủ, từ hệ thống on-premise lên đám mây) mà không lo lắng về sự khác biệt giữa các môi trường.
+Điều này đặc biệt hữu ích cho các nhà phát triển, vì ứng dụng sẽ chạy nhất quán trên các hệ thống khác nhau.
+\item  Khả năng mở rộng dễ dàng :
+Container rất dễ dàng để mở rộng hoặc thu nhỏ số lượng, đặc biệt khi kết hợp với các hệ thống quản lý container như Kubernetes. Điều này giúp các tổ chức có thể tăng hoặc giảm tài nguyên tùy theo nhu cầu mà không phải can thiệp nhiều vào hệ thống cơ sở hạ tầng.
+\item Hỗ trợ microservices :
+Container rất thích hợp cho kiến trúc microservices, trong đó mỗi dịch vụ nhỏ có thể chạy trong một container riêng. Điều này giúp phát triển, kiểm thử, triển khai và duy trì các dịch vụ nhỏ độc lập dễ dàng hơn so với việc triển khai một ứng dụng monolithic (ứng dụng lớn).
+\item  Dễ dàng triển khai và quản lý:
+Các công cụ như Docker và Kubernetes giúp đơn giản hóa việc tạo, triển khai, và quản lý container. Các quy trình như Continuous Integration/Continuous Deployment (CI/CD) trở nên dễ dàng và hiệu quả hơn nhờ khả năng tự động hóa việc xây dựng và triển khai container.
+\item Quản lý tài nguyên hiệu quả :
+Container sử dụng tài nguyên hệ thống (CPU, RAM, ổ cứng) một cách hiệu quả vì chúng không phải khởi động toàn bộ hệ điều hành như máy ảo. Điều này giúp tiết kiệm chi phí tài nguyên, đặc biệt là trong môi trường đám mây, nơi các tổ chức phải trả phí dựa trên mức sử dụng tài nguyên.
+\item Tính nhất quán trong môi trường phát triển :
+Bằng cách đóng gói toàn bộ môi trường ứng dụng và các thư viện phụ thuộc vào trong container, các nhà phát triển có thể chắc chắn rằng ứng dụng sẽ chạy một cách nhất quán từ máy tính cá nhân đến máy chủ sản xuất, không còn lo lắng về câu chuyện “chạy tốt trên máy tôi” nhưng không hoạt động ở nơi khác.
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{ Kubernetes }
+\subsubsection{ Kubernetes là gì?}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1.0\textwidth]{image/k8s and docker/k8s.png}
+    \caption{kubernetes}
+    \label{fig:ten_hinh}
+\end{figure}
+
+Kubernetes (K8S) là một hệ thống mã nguồn mở phục vụ mục đích deploy dự án tự động (automating deployment), mở rộng hệ thống (scaling) và quản lý các container.
+Nó nhóm các container cấu thành lên một ứng dụng thành các đơn vị logic để dễ dàng quản lý và khám phá.
+Kubernetes bao gồm một 
+hệ sinh thái lớn phát triển nhanh chóng với các dịch vụ, sự hỗ trợ và công cụ có sẵn rộng rãi. Nhiều tổ chức triển khai
+nhiều Container từ phát triển đến sản xuất. Các Container này được phân bổ trên nhiều dịch vụ đám mây, trung tâm
+dữ liệu riêng và trang trại máy chủ. Các nhóm vận hành cần các công cụ hiệu quả để quản lý các Container này và xác minh rằng các ứng dụng đang chạy và khả dụng. Quá trình này được gọi là điều phối Container và Kubernetes
+cung cấp những gì cần thiết. 
+
+
+
+
+\subsubsection{ Các khái niệm quan trọng của kubernets}
+
+
+
+
+\begin{enumerate}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image/k8s and docker/646786e5646162c532696293_661.2.jpg}
+    \caption{cluster}
+    \label{}
+\end{figure}
+
+
+    \item \textbf{Cluster}: Một Kubernetes cluster là một tập các máy ảo/vật lý được cài đặt Kubernetes dùng để chạy các ứng dụng. Các máy ảo/máy vật lý này được gọi là các nodes, được phân ra thành node master và các nodes worker. Như hình ảnh phía dưới là mô tả hệ thống gồm Kubernetes Master Node và các Worker Nodes (và như các bạn có thể nhìn thấy trong ảnh thì ở đây có thể có được hàng chục, thậm chí hàng ngàn worker nodes)
+
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1.0\textwidth]{image/k8s and docker/e47beb27-f067-4900-b91c-318d835bd939.png}
+    \caption{nodes}
+    \label{fig:ten_hinh}
+\end{figure}
+
+    
+    \item \textbf{Nodes} : Kubernetes nodes là các máy ảo hay máy vật lý chạy kubernetes. Các node này cần chạy Kubernetes và docker, và mỗi máy này là một docker host. 
+
+Node là đơn vị nhỏ nhất của phần cứng máy tính trong Kubernetes. Nó là đại diện của một máy duy nhất trong Kubernetes cluster. Trong hầu hết các hệ thống Kubernetes, một node có thể sẽ là một máy vật lý thật sự hoặc máy ảo của một cloud platform như Google Cloud Platform hay AWS, hoặc đơn giản là một máy ảo được tạo bởi VirtualBox trên một máy đơn.
+
+Chúng ta có thể đơn giản xem mỗi node như một tập hợp tài nguyên CPU và RAM có thể được sử dụng. Bằng cách này, bất kỳ máy nào cũng có thể thay thế bất kỳ máy nào khác trong Kubernetes cluster.
+    
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1.0\textwidth]{image/k8s and docker/b6c657ee-bd66-4776-9360-93f04dc408f3.png}
+    \caption{pods}
+    \label{fig:ten_hinh}
+\end{figure}
+
+
+
+    \item \textbf{Pods}: Khi một ứng dụng được đóng gói thì ứng dụng đó sẽ có thể chạy trên một container độc lập, Kubernetes sử dụng khái niệm pod để nhóm các container lại với nhau. Một pod là một nhóm các container, các container này sẽ dùng chung tài nguyên, network và địa chỉ IP, các container trong một pod có thể duy trì giao tiếp với nhau như trên một máy chủ nhưng vẫn giữ được sự độc lập cần thiết.
+
+Với Kubernetes, các pods thường là nhóm các containers có cùng mục đích sử dụng, ví dụ như một pod tập hợp 4 container chạy nginx + backend, và một pod tập hợp 2 container chạy frontend + nginx .v.v. , Vì vậy bài toán scale ứng dụng sẽ trở nên rất đơn giản vì chỉ cần scale các pods.
+
+
+    
+\end{enumerate}
+
+\subsubsection{ Kiến trúc của k8s và cách hoạt động}
+
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image/k8s and docker/k8s control plane/kubernetes-control-plane.png}
+    \caption{Architechture}
+    \label{}
+\end{figure}
+
+
+
+
+Kiến trúc của k8s sẽ xoay quanh các cluster, mỗi một cluster sẽ bao gồm 2 phần chính đó là Control PLane và Data plane 
+
+
+
+\begin{itemize}
+    \item \textbf{Control Plane}:Chịu trách nhiệm ra quyết định và đưa ra lệnh. Nó thường chạy trên một bộ máy riêng biệt để giúp cung cấp tính khả dụng cao.
+
+
+    \begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.3\textwidth]{image/k8s and docker/k8s control plane/controlplane.png}
+    \caption{Control plane}
+    \label{}
+    \end{figure}
+
+
+
+
+    
+    \begin{itemize}
+        \item \textbf{Kube-api-server}:: API Kubernetes đóng vai trò là giao diện chính để quản lý các tài nguyên
+như triển khai và Pod bằng cách gửi các yêu cầu tạo, cập nhật hoặc xóa.
+        \item \textbf{kube-scheduler}:Gán Pod cho các nút công nhân dựa trên tài nguyên khả dụng và yêu cầu
+của Pod, tối ưu hóa việc sử dụng tài nguyên Cluster.
+        \item \textbf{kube-controller-manager}:Vận hành một nhóm bộ điều khiển theo dõi tình trạng
+của Cluster và triển khai các hành động cần thiết để xem liệu nó có phù hợp với trạng thái mong muốn hay
+không. Chúng bao gồm bộ điều khiển triển khai, duy trì các bản sao Pod mong muốn và bộ bản sao, có thể
+xác minh xem một số lượng bản sao Pod cụ thể có đang chạy hay không.
+        \item \textbf{ectd}: Kho lưu trữ khóa có tác dụng phân tán duy trì trạng thái chia sẻ của Cluster, đảm bảo tính khả dụng cao
+cho các thành phần mặt phẳng điều khiển của người dùng.
+    \end{itemize}
+
+
+
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image/k8s and docker/k8s control plane/data plane .png}
+    \caption{Data plane}
+    \label{}
+\end{figure}
+
+
+
+
+    
+    \item \textbf{Data Plane}:Các nút cơ sở hạ tầng chạy các ứng dụng được chứa trong Container. Chúng chạy
+các công cụ chứa, quản lý Pod và xử lý khối lượng công việc thực tế của các ứng dụng.
+
+
+
+
+
+
+
+
+
+
+
+
+    \begin{itemize}
+        \item \textbf{kubelet}:Quản lý vòng đời của Pod và đảm bảo các Container hoạt động bình thường trên mỗi Node.
+        \item \textbf{kube-proxy}:Hoạt động như một giám đốc lưu lượng mạng ảo, triển khai các chính sách mạng và cho phép
+giao tiếp giữa các Pod trên toàn Cluster.
+    \end{itemize}
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsubsection{ Một số các đối tượng của kubernetes}
+Trong Kubernetes (K8s), các khái niệm như StatefulSet, ReplicaSet, Deployment, DaemonSet, Volume, Service, và Endpoints đóng vai trò quan trọng trong việc quản lý và vận hành các ứng dụng container. 
+\begin{itemize}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image/k8s and docker/k8s note/Screenshot from 2024-10-04 23-08-49.png}
+    \caption{Statefulset khi di chuyển pod sẽ sao chép y nguyên pod cũ đi}
+    \label{}
+\end{figure}
+    \item \textbf{StatefulSet}: là một đối tượng trong Kubernetes được sử dụng để quản lý và triển khai các ứng dụng yêu cầu trạng thái duy nhất cho mỗi bản sao của Pod. Điều này rất quan trọng cho các ứng dụng như cơ sở dữ liệu, nơi mỗi Pod cần giữ lại dữ liệu cụ thể và có một tên duy nhất, ổn định. 
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image/k8s and docker/k8s note/b6915895-5b3c-4177-821e-34268ad38b9d.png}
+    \caption{Statefulset}
+    \label{}
+\end{figure}
+
+
+    \begin{itemize}
+        \item Mỗi Pod có một danh tính duy nhất (được duy trì qua tên pod, chẳng hạn như pod-0, pod-1).
+        \item Các Pod được tạo tuần tự và xóa tuần tự.
+        \item Thường được sử dụng với PersistentVolumeClaims (PVC) để gắn dữ liệu ổn định cho mỗi Pod.
+        \item Ví dụ sử dụng: Triển khai Cassandra, ZooKeeper, hoặc bất kỳ cơ sở dữ liệu có trạng thái nào.
+    \end{itemize}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image/k8s and docker/k8s note/Screenshot from 2024-10-04 23-09-00.png}
+    \caption{Replicaset khi di chuyển sẽ sao chép pod cũ nhưng thay đổi nhãn}
+    \label{}
+\end{figure}
+    
+    \item \textbf{ReplicaSet}:à một thành phần của Kubernetes chịu trách nhiệm duy trì một số lượng cố định các bản sao (replica) của các Pod đang chạy tại bất kỳ thời điểm nào.
+    \begin{itemize}
+        \item Đảm bảo rằng một số lượng cụ thể các Pod luôn chạy (scale out/in).
+        \item Sử dụng nhãn (label selector) để xác định các Pod mà nó quản lý.
+        \item Deployment thường sử dụng ReplicaSet làm cơ sở hạ tầng bên dưới để quản lý các bản sao của Pod.
+        \item Ví dụ sử dụng: Đảm bảo luôn có 3 bản sao của ứng dụng web đang chạy để đảm bảo tính sẵn sàng.
+    \end{itemize}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image/k8s and docker/k8s note/7fbb666e-422a-45d5-8ea5-41a9363cb8db.png}
+    \caption{Deployments}
+    \label{}
+\end{figure}
+
+    
+    \item \textbf{Deployment}: là đối tượng cấp cao trong Kubernetes dùng để quản lý các bản phát hành của ứng dụng và cập nhật phiên bản của các Pod một cách dễ dàng.
+    \begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image/k8s and docker/k8s note/208b1e65-b61c-40a4-a468-86d99f3e177d.png}
+    \caption{Cách dùng deployments}
+    \label{}
+\end{figure}
+
+    \begin{itemize}
+        \item Cung cấp khả năng rolling updates (cập nhật từng phần) và rollbacks (quay lại phiên bản cũ nếu cập nhật gặp lỗi).
+        \item Sử dụng ReplicaSet để quản lý số lượng bản sao của Pod.
+        \item Có thể điều chỉnh số lượng Pod đang chạy và cập nhật cấu hình của chúng một cách dễ dàng.
+        \item Ví dụ sử dụng: Triển khai ứng dụng web với khả năng tự động cập nhật phiên bản mà không làm gián đoạn dịch vụ.
+    \end{itemize}
+
+
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image/k8s and docker/k8s note/f35f79ba-823f-44a8-bbca-17869e8a7425.png}
+    \caption{Daemonsets}
+    \label{}
+\end{figure}
+
+
+
+
+
+    
+    \item \textbf{DaemonSet}:đảm bảo rằng một bản sao của một Pod đang chạy trên tất cả (hoặc một số) các node trong cụm.
+    \begin{itemize}
+        \item Dùng để triển khai các tác vụ cần có trên mỗi node, chẳng hạn như ứng dụng giám sát hoặc ghi log. 
+        \item Khi có node mới được thêm vào cụm, DaemonSet sẽ tự động thêm một Pod vào node đó.
+        \item Khi một node bị loại bỏ, các Pod tương ứng của DaemonSet trên node đó cũng bị xóa.
+        \item Ví dụ sử dụng: Triển khai Fluentd cho việc ghi log, hoặc các ứng dụng giám sát như Prometheus Node Exporter.
+    \end{itemize}
+
+
+
+
+
+
+    
+    \item \textbf{Volume}:trong Kubernetes là cơ chế lưu trữ dữ liệu dùng chung cho các container trong cùng một Pod, và có thể duy trì dữ liệu ngay cả khi container bị khởi động lại.
+    \begin{itemize}
+        \item Các container trong cùng Pod có thể chia sẻ cùng một Volume.
+        \item Kubernetes hỗ trợ nhiều loại Volume như emptyDir, hostPath, PersistentVolume (PV), ConfigMap, và Secret.
+        \item PersistentVolume (PV) và PersistentVolumeClaim (PVC) được dùng để duy trì dữ liệu lâu dài (persistent storage).
+        \item Ví dụ sử dụng: Lưu trữ dữ liệu cơ sở dữ liệu hoặc các tệp cấu hình chia sẻ giữa nhiều container.
+    \end{itemize}
+
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image/k8s and docker/k8s note/Screenshot from 2024-10-04 23-12-42.png}
+    \caption{Service in k8s}
+    \label{}
+\end{figure}
+
+
+
+
+    
+    \item \textbf{Service}:  cung cấp một địa chỉ IP ổn định và một tên miền DNS nội bộ cho các Pod. Nó giúp việc định tuyến và cân bằng tải giữa các Pod trở nên dễ dàng.
+    \begin{itemize}
+        \item ClusterIP: Địa chỉ IP nội bộ trong cụm để các Pod khác có thể truy cập.
+        \item NodePort: Expose Service ra bên ngoài thông qua một cổng (port) trên tất cả các node.
+        \item LoadBalancer: Tạo một load balancer bên ngoài (thường dùng trên các cloud provider như AWS, GCP).
+        \item Headless Service (không có cluster IP) cho phép trực tiếp định tuyến đến Pod mà không cần thông qua proxy.
+        \item Ví dụ sử dụng: Triển khai service web cho một ứng dụng để các Pod khác hoặc người dùng bên ngoài có thể truy cập.
+    \end{itemize}
+
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image/k8s and docker/k8s note/Screenshot from 2024-10-04 23-18-13.png}
+    \caption{Endpoints và endpoints slices}
+    \label{}
+\end{figure}
+
+
+
+    
+    \item \textbf{Endpoints}: là một đối tượng Kubernetes chứa danh sách các IP của các Pod mà Service có thể định tuyến tới. Mỗi khi các Pod được khởi tạo hoặc xóa, các Endpoints sẽ tự động được cập nhật.
+    \begin{itemize}
+        \item Endpoints được tạo ra tự động khi Service được tạo, giúp Service biết địa chỉ của các Pod mà nó cần gửi lưu lượng đến.
+        \item Đặc biệt hữu ích cho Headless Service, nơi không có proxy và các client truy cập trực tiếp vào IP của các Pod.
+        \item Ví dụ sử dụng: Triển khai service web cho một ứng dụng để các Pod khác hoặc người dùng bên ngoài có thể truy cập.
+    \end{itemize}
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{Docker}
+\subsubsection{ Docker là gì?}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image/k8s and docker/Docker-Temporary-Image-Social-Thumbnail-1200x630-1.png}
+    \caption{docker}
+    \label{}
+\end{figure}
+Docker là một nền tảng cho developers và sysadmin để develop, deploy và run application với container. Nó cho phép tạo các môi trường độc lập và tách biệt để khởi chạy và phát triển ứng dụng và môi trường này được gọi là container. Khi cần deploy lên bất kỳ server nào chỉ cần run container của Docker thì application của bạn sẽ được khởi chạy ngay lập tức.
+
+
+
+\subsubsection{Kiến trúc của docker}
+\textbf{Docker-engine}:là phần cốt lõi của Docker, như một công cụ để đóng gói ứng dụng, được xây dựng theo kiểu kiến trúc client-server và được cài đặt trên máy Host, là nền tảng chính để chạy Docker, bao gồm Docker Daemon và Docker CLI, ngoài ra còn có containerd được tách riêng và được sử dụng như 1 trình runtime .\\
+
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image/k8s and docker/k8s note/cong-cu-docker-1024x576.png}
+    \caption{docker architecture }
+    \label{}
+\end{figure}
+
+
+
+Docker Daemon là thành phần chính của Docker chịu trách nhiệm quản lý toàn bộ vòng đời của các container trên máy chủ. Nó hoạt động dưới dạng một tiến trình chạy nền (background process) với tên gọi dockerd và lắng nghe các yêu cầu từ Docker CLI hoặc Docker API để thực thi các tác vụ như tạo, quản lý, dừng, hoặc xóa containe. \\
+
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1.0\textwidth]{image/k8s and docker/Screenshot from 2024-10-03 17-03-41.png}
+    \caption{Containerd}
+    \label{}
+\end{figure}
+
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1.1\textwidth]{image/k8s and docker/Screenshot from 2024-10-03 17-14-09.png}
+    \caption{Docker vs Containerd}
+    \label{}
+\end{figure}
+
+\textbf{Containerd}: là trình quản lý container nền tảng(runtime). Containerd là thành phần giúp Docker Daemon thực thi các thao tác quản lý container. Khi Docker Daemon nhận lệnh từ người dùng (ví dụ như docker run), nó sẽ giao cho Containerd quản lý vòng đời của container như kéo image, tạo, khởi động, và dừng container. Containerd chịu trách nhiệm tương tác với các công nghệ Linux như cgroups (để quản lý tài nguyên) và namespaces (để cô lập môi trường), cũng như gọi runc để thực hiện các thao tác hệ thống.\\
+
+
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image/k8s and docker/Screenshot from 2024-10-03 17-06-30.png}
+    \caption{Docker CLI}
+    \label{}
+\end{figure}
+
+\textbf{Docker CLI (Command Line Interface)}: là công cụ dòng lệnh chính của Docker, cho phép người dùng tương tác trực tiếp với Docker Daemon để quản lý các container, image, volume, mạng, và các tài nguyên khác trong hệ thống Docker. Docker CLI cung cấp một giao diện đơn giản và mạnh mẽ để thực thi các tác vụ liên quan đến Docker thông qua các lệnh dòng lệnh. Docker CLI hoạt động bằng cách gửi các lệnh của người dùng đến Docker Daemon thông qua Docker API. Docker Daemon sau đó tiếp nhận lệnh, xử lý và thực thi các tác vụ như khởi chạy container, kéo image, hoặc quản lý mạng và volume.
+
+
+
+\subsubsection{ Cách docker hoạt động}
+
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image/k8s and docker/docker_client.png}
+    \caption{Docker's  workflow}
+    \label{}
+\end{figure}
+
+\begin{itemize}
+    \item \textbf{Client}: là nơi mà người dùng tương tác để gửi requests tới Docker Daemon (DOCKER HOST) thông qua CLI (Command line interface) để thực hiện các thao tác như build, pull, run images.
+    \item \textbf{Server} : Docker daemon lắng nghe các request từ client và tiến hành các thao tác đó, quản lý các images, containers, networks và volumes.
+    \item \textbf{Registry}: đây là nơi lưu trữ các images khi đã build và hiện tại có một nơi lưu trữ public cho mọi người đấy là docker hub.
+\end{itemize}
+\subsubsection{ Một số khái niệm quan trọng trong docker}
+\begin{enumerate}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image/k8s and docker/k8s note/cach_thuc_hoat_dong_cua_docker_2_6fb96c2e71.jpg}
+    \caption{Docker work}
+    \label{}
+\end{figure}
+
+
+
+    \item \textbf{Dockerfile}: Là một tệp văn bản chứa các chỉ thị để xây dựng một Docker image. Dockerfile định nghĩa cách tạo ra image bằng cách chỉ định các lệnh như cài đặt phần mềm, sao chép file, và cấu hình môi trường.
+    \item \textbf{Docker Images}: là một file read-only, không thể thay đổi được, nó chứa các thư viện, công cụ, dịch vụ hay packages, những cấu hình để chạy và cần thiết để tạo nên ứng dụng.  Khi Docker Image được chạy, nó tạo ra một Docker Container, nơi các ứng dụng thực sự chạy. Docker Image được xây dựng từ một hoặc nhiều lớp (layers), với mỗi lớp đại diện cho một bước trong quy trình xây dựng (build) image. Mỗi lớp là một snapshot của hệ thống tệp (filesystem) ở một thời điểm nhất định. Các lớp này được xếp chồng lên nhau để tạo thành một Docker Image hoàn chỉnh.
+    \item \textbf{Docker Container}: Là một phiên bản đang chạy của Docker Image. Khi bạn chạy một Docker Image, nó tạo ra một container – một môi trường thực thi tách biệt nhưng có đầy đủ tài nguyên cần thiết từ image.
+    \item \textbf{Volume}: Là một khu vực lưu trữ ngoài container, cho phép giữ lại dữ liệu ngay cả khi container bị xóa. Volumes rất hữu ích cho việc quản lý dữ liệu lâu dài và chia sẻ dữ liệu giữa các container.
+    \item \textbf{Registry}:Là nơi lưu trữ và phân phối Docker images. Docker Hub là một loại public registry, trong khi các private registry cho phép tổ chức lưu trữ images riêng.
+\end{enumerate}
+
+\subsubsection{ Các chức năng và công cụ trong docker}
+
+
+
+
+
+
+
+
+\begin{enumerate}
+    \item \textbf{Docker Client}: là cách mà bạn tương tác với docker thông qua command trong terminal. Docker Client sẽ sử dụng API gửi lệnh tới Docker Daemon.
+    \item \textbf{Docker Volumes}: là cách tốt nhất để lưu trữ dữ liệu liên tục cho việc sử dụng và tạo apps.
+    \item \textbf{Docker Registry}: là nơi lưu trữ riêng của Docker Images. Images được push vào registry và client sẽ pull images từ registry. Có thể sử dụng registry của riêng bạn hoặc registry của nhà cung cấp như : AWS, Google Cloud, Microsoft Azure.
+    \item \textbf{Docker Hub}: là Registry lớn nhất của Docker Images ( mặc định). Có thể tìm thấy images và lưu trữ images của riêng bạn trên Docker Hub ( miễn phí)
+    \item \textbf{Docker Repository}: là tập hợp các Docker Images cùng tên nhưng khác tags.
+    \item \textbf{Docker Networking}: cho phép kết nối các container lại với nhau. Kết nối này có thể trên 1 host hoặc nhiều host.
+    \item \textbf{Docker Swarm}: để phối hợp triển khai container.
+    \item \textbf{Docker Services}: là các containers trong production. 1 service chỉ run 1 image nhưng nó mã hoá cách thức để run image — sử dụng port nào, bao nhiêu bản sao container run để service có hiệu năng cần thiết và ngay lập tức.
+\end{enumerate}
+\subsubsection{ Docker networking-kết nối trong docker}
+Một trong những nền tảng để docker có thể phát triển mạnh mẽ nằm ở việc chia sẻ và kết nối các container,Docker network sẽ đảm nhiệm nhiệm vụ kết nối mạng giữa các container với nhau, kết nối giữa container với bên ngoài, cũng như kết nối giữa các cụm (swarm) docker containers.\\
+Hệ thống network Docker là dạng plugable, sử dụng drivers. Hầu hết các driver được cung cấp mặc định, với các chức năng cốt lõi của các chức năng mạng thông thường.\\
+Docker network có thể cung cấp hầu hết các chức năng mà một hệ thống mạng bình thường cần có.\\
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image/k8s and docker/k8s note/Screenshot from 2024-10-04 23-44-37.png}
+    \caption{Docker networking}
+    \label{}
+\end{figure}
+
+
+
+\begin{itemize}
+    \item \textbf{BRIDGE}
+Đây là driver mạng default của Docker. Nếu không chỉ định driver thì bridge sẽ là driver mạng mặc định khi khởi tạo.
+
+Khi chúng ta cài đặt Docker, virtual bridge docker sẽ được tạo ra, docker tìm một subnet chưa được dùng trên host và gán một địa chỉ cho docker\\
+
+Bridge network thường được sử dụng khi cần chạy ứng dụng dưới dạng các container độc lập cần giao tiếp với nhau. Các container trong cùng mạng có thể giao tiếp với nhau qua địa chỉ IP. Docker không hỗ trợ nhận diện host ở mạng này, vì vậy muốn connect thì phải dùng options links để docker có thể hiểu được địa chỉ của các service.
+
+Bridge là driver tốt nhất cho việc giao tiếp multiple containers ở một host đơn.
+\item \textbf{HOST}
+Dùng khi container cần giao tiếp với host và sử dụng luôn mạng ở host, vì sử dụng mạng của máy chủ đang chạy nên không còn lớp mạng nào giữa container với Docker Host phù hợp khi cần connect từ container ra thẳng ngoài host
+\item \textbf{Mạng lớp phủ - Overlay network} 
+tạo một mạng phân tán giữa nhiều máy chủ Docker. Kết nối nhiều Docker daemons với nhau và cho phép các cụm services giao tiếp với nhau. Chúng ta có thể sử dụng overlay network để giao tiếp dễ dàng giữa cụm các services với một container độc lập, hay giữa 2 container với nhau ở khác máy chủ Docker daemons.
+
+Nhờ Overlay network, không cần các công việc thiết lập routing giữa các container thông qua hệ điều hành. Overlay network tạo nên một lớp phủ trên mạng của máy chủ và cho phép container kết nối đến (bao gồm cả các cụm containers) để giao tiếp một cách bảo mật. Docker đảm bảo định tuyến các gói tin đến và đi đúng container đích.
+\item \textbf{MACVLAN}
+Mạng Macvlan cho phép chúng ta gán địa chỉ MAC cho container, điều này làm cho mỗi container như là một thiết bị vật lý trong mạng. Docker daemon định tuyến truy cập tới container bởi địa chỉ MAC. Sử dụng driver macvlan là lựa chon tốt khi các ứng dụng khác cần phải connect đến theo địa chỉ vật lý hơn là thông qua các lớp mạng của máy chủ.
+\item \textbf{NONE}
+Với container không cần networking hoặc cần disable đi tất cả mọi networking, chúng ta sẽ chọn driver này. Thường được dùng với mạng tùy chỉnh. Driver này không thể dùng trong cụm swarm.
+\end{itemize}
+
+
+\subsection{Kubernetes-Docker và ứng dụng thực tế }
+\subsubsection{Điểm khác biệt giữa Docker và Kubernetes }
+Cả Kubernetes và Docker đều là công nghệ Container nguồn mở. Tuy nhiên về cơ bản, chúng khác nhau về cách
+thức hoạt động và vai trò của chúng trong việc phân phối các ứng dụng được chứa trong Container. Các nhà phát
+triển sử dụng Docker để tạo và thao tác với các Container Image. Họ sử dụng Kubernetes để quản lý nhiều microservices ở quy mô lớn. Mỗi microservice được tạo thành từ nhiều Container riêng lẻ.
+\subsubsection{Sự kết hợp của K8s và Docker}
+Trong thực tế  , k8s và docker làm việc cùng nhau, hỗ trợ nhau hoàn thành công việc dễ dàng hơn.
+\begin{itemize}
+    \item Xây dựng Images: Với Docker, bạn có thể tạo ra Docker images từ Dockerfile. Những images này chứa mã nguồn và tất cả các phụ thuộc cần thiết cho ứng dụng.
+    \item Triển khai lên K8s: Các Docker images được đẩy lên một registry (như Docker Hub hoặc một private registry). Kubernetes sau đó sử dụng những images này để triển khai các Pod trong cluster.
+\end{itemize}
+
+
+
+
+\subsection{Hướng dẫn cài đặt và chạy một hệ điều hành trong Docker Container}
+Trong thực tế , việc đóng gói và chạy một hệ điều hành bằng cách container hóa là khả thi 
+Chi tiết về việc Đóng gói 1 hệ điều hành rất phức tạp nên ở đây sẽ chỉ hướng dẫn cài đặt và chạy images đã sẵn có của 1 hệ điều hành.//
+Chúng ta sẽ chọn lựa một hệ điều hành là kali-linux để làm ví dụ, và hệ điều hành chúng ta sẽ sử dụng để thực hiện việc cài đặt và chạy là Ubuntu: 
+\begin{itemize}
+
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image/LXD/010_Ubuntu-SnapInstallLXD.png}
+    \caption{Install lxd via snap and perform initial setup}
+    \label{}
+\end{figure}
+
+
+
+    \item \textbf{Cài đặt LXD}:LXD là trình quản lý Container và máy ảo được cung cấp bởi công nghệ Container Linux (LXC). LXD giúp chúng ta có thể chạy một hệ điều hành linux trong container thông qua linux-OS images( có trong server của LXC\\
+    
+
+
+
+
+
+    \begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image/LXD/020_Ubuntu-CreateKaliContainer.png}
+    \caption{Launch Kali Linux container with lxc}
+    \label{}
+\end{figure}
+
+
+
+    
+    \item \textbf{Khởi động kali linux container}: Sau khi cài đặt xong lxd chúng ta sẽ bắt đầu khởi động container (như là khởi động máy tính bình thường)
+    
+
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image/LXD/030_Ubuntu-InstallPackages.png}
+    \caption{Install packages}
+    \label{}
+\end{figure}
+
+
+
+
+\item \textbf{Cài đặt thêm các package cần thiết}: Một số  package cần thiết để có thể  chạy container cũng như giúp cho việc sử dụng kali trong container được mượt mà hơn
+
+
+
+
+
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image/LXD/040_Ubuntu-Adduser.png}
+    \caption{Add user}
+    \label{}
+\end{figure}
+
+
+
+
+\item \textbf{Tạo một user trong kali linux}: Để  có thể  sử  dụng kali, chúng ta cần một tài khoản user để có thể  login và sử dụng
+
+
+
+
+
+\item \textbf{Login vào container chứa kali linux}: Sau khi đã hoàn thành các bước ở trên chúng ta có thể  lập tức sử dụng kali linux. Khi muốn dừng, chúng ta chỉ cần sử dụng câu lệnh \textbf{lxc stop} 
+
+    
+\end{itemize}
+
+
+
+Vậy là chúng ta đã hoàn thành xong việc cài đặt và khởi động một hệ điều hành thông qua Docker container. Việc sử  dụng Linux trong containers rất hữu ích trong việc thử nghiệm hoặc phát triển ứng dụng, giảm thiểu lượng tài nguyên không cần thiết như khi chạy một Virtual machine. Chúng ta có thể mở rộng hơn nữa thông qua đóng gói các container thành 1 phòng lab thử  nghiệm gọn nhẹ, khá dễ  trong việc cài đặt và cấu hình theo yêu cầu, tạo ra một môi trường học tập và kiểm thử khép kín, cách biệt với hệ thống, an toàn sử dụng.
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Mô hình mạng OSI và TCP/IP }
+\subsection{OSI model}
+\subsubsection{Mô hình OSI là gì}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image/OSI VS TCP AND IP/Screenshot from 2024-10-04 22-51-41.png}
+    \caption{What is OSI}
+    \label{}
+\end{figure}
+\textbf{Mô hình OSI} (Open Systems Interconnection Reference Model, viết ngắn là OSI Model hoặc OSI Reference Model) - tạm dịch là Mô hình tham chiếu kết nối các hệ thống mở - là một thiết kế dựa vào nguyên lý tầng cấp, lý giải một cách trừu tượng kỹ thuật kết nối truyền thông giữa các máy tính và thiết kế giao thức mạng giữa chúng. Mô hình này được phát triển thành một phần trong kế hoạch Kết nối các hệ thống mở (Open Systems Interconnection) do ISO và IUT-T khởi xướng. Nó còn được gọi là Mô hình bảy tầng của OSI.
+\subsubsection{Mục đích sử dụng}
+Mô hình OSI sắp xếp một giao thức với chức năng của nó vào một hoặc một nhóm các lớp tương ứng. Mỗi một tầng cấp có một đặc tính là nó chỉ sử dụng chức năng của tầng dưới nó, đồng thời chỉ cho phép tầng trên sử dụng các chức năng của mình. Một hệ thống cài đặt các giao thức bao gồm một chuỗi các tầng nói trên được gọi là "chồng giao thức" (protocol stack). Chồng giao thức có thể được cài đặt trên phần cứng, hoặc phần mềm, hoặc là tổ hợp của cả hai. Thông thường thì chỉ có những tầng thấp hơn là được cài đặt trong phần cứng, còn những tầng khác được cài đặt trong phần mềm.\\
+Việc phân chia hợp lý các chức năng của giao thức khiến việc suy xét về chức năng và hoạt động của các chồng giao thức dễ dàng hơn, từ đó tạo điều kiện cho việc thiết kế các chồng giao thức tỉ mỉ, chi tiết, song có độ tin cậy cao. Mỗi tầng cấp thi hành và cung cấp các dịch vụ cho tầng ngay trên nó, đồng thời đòi hỏi dịch vụ của tầng ngay dưới nó. Như đã nói ở trên, một thực thi bao gồm nhiều tầng cấp trong mô hình OSI, thường được gọi là một "chồng giao thức" (ví dụ như TCP/IP).
+\subsubsection{Cấu trúc của mô hình OSI}
+
+\begin{enumerate}
+    \item \textbf{Tầng vật lý (Physical Layer)}: Tầng vật lý định nghĩa tất cả các đặc tả về điện và vật lý cho các thiết bị. Trong đó bao gồm bố trí của các chân cắm (pin), các hiệu điện thế, và các đặc tả về cáp nối (cable). Các thiết bị tầng vật lý bao gồm Hub, bộ lặp (repeater), thiết bị chuyển đổi tín hiệu (converter), thiết bị tiếp hợp mạng (network adapter) và thiết bị tiếp hợp kênh máy chủ (Host Bus Adapter) - (HBA dùng trong mạng lưu trữ Storage Area Network). Chức năng và dịch vụ căn bản được thực hiện bởi tầng vật lý bao gồm:
+    \begin{itemize}
+        \item Thiết lập hoặc ngắt mạch kết nối điện (electrical connection) với một môi trường truyền dẫn phương tiện truyền thông (transmission medium).
+        \item Tham gia vào quy trình mà trong đó các tài nguyên truyền thông được chia sẻ hiệu quả giữa nhiều người dùng. Chẳng hạn giải quyết tranh chấp tài nguyên (contention) và điều khiển lưu lượng.
+        \item Điều chế (modulation), hoặc biến đổi giữa biểu diễn dữ liệu số (digital data) của các thiết bị người dùng và các tín hiệu tương ứng được truyền qua kênh truyền thông (communication channel).
+    \end{itemize}
+    Cáp (bus) SCSI song song hoạt động ở tầng cấp này. Nhiều tiêu chuẩn khác nhau của Ethernet dành cho tầng vật lý cũng nằm trong tầng này; Ethernet nhập tầng vật lý với tầng liên kết dữ liệu vào làm một. Điều tương tự cũng xảy ra đối với các mạng cục bộ như Token ring, FDDI và IEEE 802.11.
+
+
+
+
+    
+    \item \textbf{Tầng liên kết dữ liệu (Data-Link Layer)}:Tầng liên kết dữ liệu cung cấp các phương tiện có tính chức năng và quy trình để truyền dữ liệu giữa các thực thể mạng (truy cập đường truyền, đưa dữ liệu vào mạng), phát hiện và có thể sửa chữa các lỗi trong tầng vật lý nếu có. Cách đánh địa chỉ mang tính vật lý, nghĩa là địa chỉ (địa chỉ MAC) được mã hóa cứng vào trong các thẻ mạng (network card) khi chúng được sản xuất. Hệ thống xác định địa chỉ này không có đẳng cấp (flat scheme). Chú ý: Ví dụ điển hình nhất là Ethernet. Những ví dụ khác về các giao thức liên kết dữ liệu (data link protocol) là các giao thức HDLC; ADCCP dành cho các mạng điểm-tới-điểm hoặc mạng chuyển mạch gói (packet-switched networks) và giao thức Aloha cho các mạng cục bộ. Trong các mạng cục bộ theo tiêu chuẩn IEEE 802, và một số mạng theo tiêu chuẩn khác, chẳng hạn FDDI, tầng liên kết dữ liệu có thể được chia ra thành 2 tầng con: tầng MAC (Media Access Control - Điều khiển Truy nhập Đường truyền) và tầng LLC (Logical Link Control - Điều khiển Liên kết Logic) theo tiêu chuẩn IEEE 802.2.
+
+Tầng liên kết dữ liệu chính là nơi các thiết bị chuyển mạch (switches) hoạt động. Kết nối chỉ được cung cấp giữa các nút mạng được nối với nhau trong nội bộ mạng.
+
+
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image/OSI VS TCP AND IP/Screenshot from 2024-10-04 22-47-05.png}
+    \caption{OSI Layer}
+    \label{}
+\end{figure}
+
+
+
+
+
+
+    \item \textbf{Tầng mạng (Network Layer)}:Tầng mạng cung cấp các chức năng và quy trình cho việc truyền các chuỗi dữ liệu có độ dài đa dạng, từ một nguồn tới một đích, thông qua một hoặc nhiều mạng, trong khi vẫn duy trì chất lượng dịch vụ (quality of service) mà tầng giao vận yêu cầu. Tầng mạng thực hiện chức năng định tuyến. Các thiết bị định tuyến (router) hoạt động tại tầng này - gửi dữ liệu ra khắp mạng mở rộng, làm cho liên mạng trở nên khả thi (còn có thiết bị chuyển mạch (switch) tầng 3, còn gọi là chuyển mạch IP). Đây là một hệ thống định vị địa chỉ lôgic (logical addressing scheme) – các giá trị được chọn bởi kỹ sư mạng. Hệ thống này có cấu trúc phả hệ. Ví dụ điển hình của giao thức tầng 3 là giao thức IP.
+    \item \textbf{Tầng giao vận (Transport Layer)}: Tầng giao vận cung cấp dịch vụ chuyên dụng chuyển dữ liệu giữa các người dùng tại đầu cuối, nhờ đó các tầng trên không phải quan tâm đến việc cung cấp dịch vụ truyền dữ liệu đáng tin cậy và hiệu quả. Tầng giao vận kiểm soát độ tin cậy của một kết nối được cho trước. Một số giao thức có định hướng trạng thái và kết nối (state and connection orientated). Có nghĩa là tầng giao vận có thể theo dõi các gói tin và truyền lại các gói bị thất bại. Một ví dụ điển hình của giao thức tầng 4 là TCP. Tầng này là nơi các thông điệp được chuyển sang thành các gói tin TCP hoặc UDP. Ở tầng 4 địa chỉ được đánh là address ports, thông qua address ports để phân biệt được ứng dụng trao đổi.
+
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1.1\textwidth]{image/OSI VS TCP AND IP/Rm-osi_parallel.png}
+    \caption{Workflow OSI}
+    \label{}
+\end{figure}
+
+
+
+
+
+
+
+    \item \textbf{Tầng phiên (Session layer)}: Tầng phiên kiểm soát các (phiên) hội thoại giữa các máy tính. Tầng này thiết lập, quản lý và kết thúc các kết nối giữa trình ứng dụng địa phương và trình ứng dụng ở xa. Tầng này còn hỗ trợ hoạt động song công (duplex) hoặc bán song công (half-duplex) hoặc đơn công (Simplex) và thiết lập các quy trình đánh dấu điểm hoàn thành (checkpointing) - giúp việc phục hồi truyền thông nhanh hơn khi có lỗi xảy ra, vì điểm đã hoàn thành đã được đánh dấu - trì hoãn (adjournment), kết thúc (termination) và khởi động lại (restart). Mô hình OSI uỷ nhiệm cho tầng này trách nhiệm "ngắt mạch nhẹ nhàng" (graceful close) các phiên giao dịch (một tính chất của giao thức kiểm soát giao vận TCP) và trách nhiệm kiểm tra và phục hồi phiên, đây là phần thường không được dùng đến trong bộ giao thức TCP/IP.
+    \item \textbf{Tầng trình diễn (Presentation layer)}: Tầng trình diễn hoạt động như tầng dữ liệu trên mạng. Tầng này trên máy tính truyền dữ liệu làm nhiệm vụ dịch dữ liệu được gửi từ tầng ứng dụng sang địng dạng chung. Và tại máy tính nhận, lại chuyển từ định dạng chung sang định dạng của tầng ứng dụng. Tầng thể hiện thực hiện các chức năng sau:
+    \begin{enumerate}
+        \item Dịch các mã ký tự từ ASCII sang EBCDIC.
+        \item Chuyển đổi dữ liệu, ví dụ từ số interger sang số dấu phảy động.
+        \item Nén dữ liệu để giảm lượng dữ liệu truyền trên mạng.
+        \item Mã hoá và giải mã dữ liệu để đảm bảo sự bảo mật trên mạng.
+    \end{enumerate}
+
+
+    \item \textbf{Tầng ứng dụng (Application layer)}: Tầng ứng dụng là tầng gần với người sử dụng nhất. Nó cung cấp phương tiện cho người dùng truy nhập các thông tin và dữ liệu trên mạng thông qua chương trình ứng dụng. Tầng này là giao diện chính để người dùng tương tác với chương trình ứng dụng, và qua đó với mạng. Một số ví dụ về các ứng dụng trong tầng này bao gồm HTTP, Telnet, FTP (giao thức truyền tập tin) và các giao thức truyền thư điện tử như SMTP, IMAP, X.400 Mail.
+\end{enumerate}
+
+\subsection{Bộ giao thức TCP/IP}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image/OSI VS TCP AND IP/Screenshot from 2024-10-04 22-44-10.png}
+    \caption{TCP/IP}
+    \label{}
+\end{figure}
+
+
+
+\subsubsection{Định nghĩa}
+Bộ giao thức TCP/IP, (tiếng Anh: TCP/IP protocol suite) hay còn gọi là bộ giao thức Internet (tiếng Anh: Internet protocol suite hoặc IP suite) là một mô hình khái niệm (conceptual model) và một tập hợp các giao thức truyền thông dùng trong mạng Internet và các hệ thống mạng máy tính tương tự. Tên gọi TCP/IP đến từ hai giao thức nền tảng của bộ giao thức là TCP (Transmission Control Protocol) và IP (Internet Protocol).[1] TCP và IP cũng là hai giao thức đầu tiên được định nghĩa
+\\
+Như nhiều bộ giao thức khác, bộ giao thức TCP/IP có thể được coi là một tập hợp các tầng, mỗi tầng giải quyết một tập các vấn đề có liên quan đến việc truyền dữ liệu, và cung cấp cho các giao thức tầng cấp trên một dịch vụ được định nghĩa rõ ràng dựa trên việc sử dụng các dịch vụ của các tầng thấp hơn. Về mặt logic, các tầng trên gần với người dùng hơn và làm việc với dữ liệu trừu tượng hơn, chúng dựa vào các giao thức tầng cấp dưới để biến đổi dữ liệu thành các dạng mà cuối cùng có thể được truyền đi một cách vật lý.
+\subsubsection{Các tầng trong chồng giao thức của bộ giao thức TCP/IP}
+Bộ giao thức IP dùng sự đóng gói dữ liệu hòng trừu tượng hóa các giao thức và các dịch vụ. TCP/IP bao gồm 4 tầng chính:
+
+
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image/OSI VS TCP AND IP/Screenshot from 2024-10-04 22-43-36.png}
+    \caption{TCP/IP Layers}
+    \label{}
+\end{figure}
+
+
+
+
+\begin{enumerate}
+    \item \textbf{Network Interface Layer (Tầng Giao diện mạng):} Tầng này tương đương với Physical Layer và Data Link Layer trong mô hình OSI. Nó chịu trách nhiệm xử lý giao tiếp với các phần cứng mạng thực tế, như Ethernet hoặc Wi-Fi, đồng thời kiểm soát truyền dữ liệu giữa các thiết bị trên mạng cục bộ.
+
+Chức năng chính của tầng này là đảm bảo các gói dữ liệu (packets) có thể được gửi qua các phương tiện truyền dẫn vật lý (cáp, sóng vô tuyến, v.v.).
+    \item \textbf{Internet Layer (Tầng Internet):}Tầng này tương ứng với Network Layer của mô hình OSI. Nhiệm vụ chính của nó là định tuyến các gói tin (packets) từ nguồn đến đích trên mạng. Địa chỉ IP được sử dụng để xác định các thiết bị trên mạng, và các gói tin được định tuyến qua các mạng trung gian để đến được đích.
+
+Chức năng chính của tầng Internet là:
+\begin{itemize}
+    \item \textbf{Định tuyến gói tin: }Chọn đường đi tốt nhất cho dữ liệu để gửi đến đúng thiết bị.
+    \item \textbf{Địa chỉ IP:} Mỗi thiết bị trong mạng được xác định bởi một địa chỉ IP (IPv4 hoặc IPv6).
+    \item \textbf{IP (Internet Protocol)} là giao thức chính của tầng này.
+\end{itemize}
+    \item \textbf{ Transport Layer (Tầng Giao vận):}Tầng này tương ứng với Transport Layer trong mô hình OSI và chịu trách nhiệm đảm bảo dữ liệu được truyền một cách tin cậy giữa hai thiết bị. Tầng này bao gồm hai giao thức chính là:
+    \begin{itemize}
+        \item \textbf{TCP (Transmission Control Protocol): }Giao thức kết nối hướng trạng thái, đảm bảo rằng dữ liệu đến đúng đích, theo đúng thứ tự và không mất mát. TCP thực hiện kiểm soát lỗi, đảm bảo dữ liệu được truyền một cách tin cậy bằng cách phân mảnh thành các gói nhỏ và đảm bảo chúng được nhận đầy đủ.
+        \item \textbf{UDP (User Datagram Protocol): }Giao thức không kết nối, nhanh hơn TCP nhưng không đảm bảo an toàn dữ liệu (không kiểm soát lỗi). UDP thường được sử dụng cho các ứng dụng yêu cầu tốc độ cao và có thể chấp nhận mất mát dữ liệu, như phát trực tuyến video hoặc game trực tuyến.
+    \end{itemize}
+    \item \textbf{Application Layer (Tầng Ứng dụng):}Tầng này kết hợp cả Application Layer, Presentation Layer, và Session Layer của mô hình OSI. Đây là tầng mà các ứng dụng và giao thức mà người dùng tương tác trực tiếp, như duyệt web, gửi email, truyền tải file, v.v. Các giao thức ứng dụng phổ biến bao gồm:
+    \begin{itemize}
+        \item \textbf{HTTP/HTTPS:} Dùng cho trình duyệt web để truy cập các trang web.
+        \item \textbf{SMTP: }Dùng để gửi email.
+        \item \textbf{FTP:} Dùng để truyền file.
+
+        \item \textbf{DNS: }Hệ thống phân giải tên miền, chuyển đổi tên miền thành địa chỉ IP.
+    \end{itemize}
+\end{enumerate}
+
+
+
+
+\subsubsection{Các giao thức được sử dụng trong mỗi tầng}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image/OSI VS TCP AND IP/screenshot_1.png}
+    \caption{Các giao thức TCP/IP}
+    \label{}
+\end{figure}
+
+
+
+\begin{itemize}
+    \item \textbf{Tầng ứng dụng}: DNS, TFTP, TLS/SSL, FTP, HTTP, IMAP, IRC, NNTP, POP3, SIP, SMTP, SNMP, SSH, TELNET, ECHO, BitTorrent, RTP, PNRP, rlogin, ENRP, …
+    \item \textbf{Tầng giao vận}:TCP, UDP, DCCP, SCTP, IL, RUDP, …
+    \item \textbf{Tầng mạng}:IP (IPv4, IPv6)
+    \item \textbf{Tầng liên kết}:Ethernet, Wi-Fi, Token ring, PPP, SLIP, FDDI, ATM, Frame Relay, SMDS, …
+\end{itemize}
+
+
+
+
+
+
+
+\subsubsection{Quá trình truyền dữ liệu trong mô hình TCP/IP}
+Quá trình truyền dữ liệu diễn ra từ tầng trên cùng (Application Layer) xuống tầng dưới cùng (Network Interface Layer) khi gửi dữ liệu và ngược lại khi nhận dữ liệu. Mỗi tầng thêm vào các thông tin cần thiết vào dữ liệu để nó có thể được truyền đi đúng cách.
+Một ví dụ về  truyền dữ liệu:
+\begin{itemize}
+    \item \textbf{Tại tầng Ứng dụng (Application Layer): }Một ứng dụng (ví dụ, trình duyệt web) tạo ra một yêu cầu HTTP để tải trang web.
+    \item \textbf{Tại tầng Giao vận (Transport Layer):}  TCP phân mảnh yêu cầu thành các phân đoạn nhỏ, đảm bảo rằng chúng được truyền một cách tin cậy qua mạng.
+    \item \textbf{Tại tầng Internet (Internet Layer): }IP gói dữ liệu lại trong các gói tin (packets) và thêm địa chỉ IP đích.
+    \item \textbf{Tại tầng Giao diện mạng (Network Interface Layer):}  Dữ liệu được truyền qua mạng vật lý, chẳng hạn như Ethernet hoặc Wi-Fi, để đến đích.
+\end{itemize}
+
+\subsection{OSI vs TCP/IP}
+Mô hình OSI và mô hình TCP/IP đều là các mô hình tham chiếu mạng được sử dụng để mô tả cách thức các hệ thống truyền thông giao tiếp với nhau. Tuy nhiên, chúng có những khác biệt quan trọng về cấu trúc, cách hoạt động và phạm vi áp dụng.\\
+
+Bộ giao thức IP (và chồng giao thức tương ứng) đã được sử dụng, trước khi mô hình OSI được thành lập, và từ đó, rất nhiều lần trong sách in cũng như trong lớp học, chồng giao thức IP đã được so sánh với mô hình OSI rất nhiều lần. Các tầng cấp của OSI cũng thường được dùng để diễn tả chức năng của các thiết bị mạng.
+
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image/OSI VS TCP AND IP/Screenshot from 2024-10-04 22-37-30.png}
+    \caption{Bảng so sánh TCP/IP VS OSI}
+    \label{}
+\end{figure}
+
+
+
+Điểm khác biệt đầu tiên dễ thấy nhất là số lượng của các tầng cấp. Mô hình của Bộ Quốc phòng Mỹ (DoD model), với chồng giao thức IP, chỉ có bốn hoặc năm tầng (tầng liên kết có thể được coi như là một tầng riêng biệt, song cũng có thể được phân tách ra thành hai tầng, tầng vật lý và tầng liên kết dữ liệu, trong khi đó mô hình OSI lại dùng bảy tầng. So sánh tên của chúng một cách chặt chẽ cho chúng ta thấy rằng, hai tầng "mới" có tên là tầng trình diễn và tầng phiên. Nhiều sự so sánh đã gộp hai tầng này lại với tầng ứng dụng của OSI, và coi nó tương tự như tầng ứng dụng của giao thức IP.
+
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image/OSI VS TCP AND IP/Screenshot from 2024-10-04 22-42-57.png}
+    \caption{TCP/IP VS OSI Layer}
+    \label{}
+\end{figure}
+
+Kết luận, Mô hình OSI: Thích hợp để giảng dạy, nghiên cứu và phân tích các hệ thống mạng với cấu trúc chi tiết và rõ ràng, nhưng không phải là mô hình được áp dụng nhiều trong thực tế. Còn mô hình TCP/IP là nền tảng của mạng Internet và các hệ thống mạng thực tế, có tính ứng dụng cao và dễ triển khai hơn. Tuy nhiên, nó có sự tích hợp chặt chẽ giữa các tầng, ít tách biệt chức năng, và không mang tính chuẩn hóa như OSI. Mặc dù OSI cung cấp một cái nhìn chi tiết và toàn diện hơn, TCP/IP là mô hình chủ đạo trong thực tế, do khả năng linh hoạt, hiệu quả, và dễ triển khai trên quy mô toàn cầu.
+
+
+\section{Các tài liệu tham khảo}
+Bên dưới đây là các website và tài liệu đã được tham khảo trong lúc tìm hiểu, trong đó có một số sẽ đi vào các kiến thức chi tiết 
+
+\begin{itemize}
+    \item \textbf{Ảo hóa}: \href{https://en.wikipedia.org/wiki/Virtualization}{https://en.wikipedia.org/wiki/Virtualization}
+    \item \textbf{Hypervisor}:
+    \begin{itemize}
+
+    
+\item \href{https://en.wikipedia.org/wiki/Hypervisor}{https://en.wikipedia.org/wiki/Hypervisor}
+\item \href{https://phoenixnap.com/kb/what-is-hypervisor-type-1-2}{https://phoenixnap.com/kb/what-is-hypervisor-type-1-2}
+
+\end{itemize}
+    
+    \item \textbf{Containerize}:
+    \begin{itemize}
+        \item \textbf{OS container}: \href{ https://www.youtube.com/watch?v=kICnD0pRBZU&pp=ygUlY29udGFpbmVyaXplIGEgbGludXggb3BlcmF0aW5nIHN5c3RlbQ%3D%3D}
+        {youtube}
+        \item  \textbf{WIN32 app containerize}: \href{https://learn.microsoft.com/vi-vn/windows/win32/com/containers}{MSlearn}
+        \item \textbf{Docker OS container}: \href{https://www.kali.org/docs/containers/kalilinux-lxc-images/}{KALI-LINUX}
+    \end{itemize}
+    \item \textbf{K8S}:
+    \begin{itemize}
+        \item \href{https://kubernetes.io/vi/}{https://kubernetes.io/vi/}
+        \item  \href{https://viblo.asia/p/kubernetes-so-sanh-giua-deployments-statefulsets-va-daemonsets-khi-nao-nen-su-dung-chung-ORNZqXd3K0n}{Viblo Advance}
+        \item \href{https://viblo.asia/p/tim-hieu-co-ban-ve-kubernetes-k8s-part-1-924lJ4bbKPM}{VIBLO K8S}
+    \end{itemize}
+    \item \textbf{Docker}
+    \begin{itemize}
+        \item \href{https://hub.docker.com/}{https://hub.docker.com/}
+        \item \href{https://viblo.asia/p/docker-la-gi-kien-thuc-co-ban-ve-docker-maGK7qeelj2}{DOCKER Viblo}
+        \item \href{https://hub.docker.com/}{https://hub.docker.com/}
+    \end{itemize}
+    \item \textbf{OSI VÀ TCP/IP}
+    \begin{itemize}
+        \item \textbf{OSI}:\href{https://en.wikipedia.org/wiki/OSI_model}{OSI}
+        \item \textbf{TCP/IP}: \href{https://vi.wikipedia.org/wiki/TCP/IP}{https://vi.wikipedia.org/wiki/TCP/IP}
+    \end{itemize}
+\end{itemize}
+
+
+
+
+
+
+
+
+\end{document}
