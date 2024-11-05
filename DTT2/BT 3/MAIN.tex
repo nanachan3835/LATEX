@@ -1,0 +1,351 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage[utf8]{vietnam}
+\usepackage{amsmath}
+\usepackage{setspace}
+\renewcommand{\baselinestretch}{1.2}
+\usepackage{graphicx}
+\usepackage{tocbibind} 
+\usepackage{hyperref}
+
+
+\hypersetup{
+    colorlinks=true, % Kích hoạt màu cho liên kết
+    linkcolor=black, % Màu liên kết nội bộ (trong tài liệu)
+    urlcolor=black,  % Màu liên kết trang web
+    citecolor=black, % Màu liên kết trích dẫn
+    pdfborder={0 0 0}, % Không có viền
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\begin{document}
+
+
+
+% Trang bìa
+\begin{titlepage}
+    \centering
+    \vspace{0.5cm}
+
+    \LARGE
+    Trường Đại Học Bách Khoa Hà Nội
+
+    \LARGE
+    \textbf{VIỆN ĐIỆN TỬ - VIỄN THÔNG}
+    
+%\vspace{1.2cm}
+%\includegraphics[width=0.5\textwidth]{Screenshot from 2024-10-29 21-01-20.png} % Thay %logo.png bằng tên tệp hình ảnh của bạn
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{LOGO.png}
+    \label{fig:ten_label}
+\end{figure}
+
+
+    \vspace{1cm}
+
+    \textbf{BÁO CÁO}
+
+    \vspace{0.2cm}
+    \LARGE
+    \textbf{\fontsize{19}{24}\selectfont Tính toán phối hợp trở kháng chữ PI và T}
+
+    \vspace{0.2cm}
+    \LARGE
+
+    \begin{center}
+        
+    
+    \textbf{Họ và Tên: Dương Quốc Dũng }
+    
+    \textbf{MSSV: 20213835}
+    
+    \end{center}
+    
+   
+
+\end{titlepage}
+
+
+
+\tableofcontents
+\listoffigures
+\newpage
+
+
+\section{Mạch phối hợp trở kháng chữ Pi}
+\subsection{Giới thiệu về mạch trở kháng chữ Pi }
+Mạch phối hợp trở kháng chữ pi là một dạng mạch phối hợp trở kháng phổ biến, đặc biệt trong các ứng dụng truyền tải RF (radio frequency) như truyền sóng, anten, và khuếch đại tín hiệu RF. Mạch π thường được dùng để điều chỉnh và tối ưu hóa khả năng truyền tải năng lượng giữa các thiết bị có trở kháng khác nhau.
+Dạng pi bao gồm hai mạng L nối ngược với nhau, với một điện trở ảo nằm giữa hai mạng này để đạt được ghép trở kháng.
+\subsection{Cấu trúc của mạch trở kháng chữ Pi}
+\begin{enumerate}
+    \item Hai tụ điện: Được mắc song song với mạch đầu vào và mạch đầu ra. Hai tụ này giúp làm giảm ảnh hưởng của các thành phần tần số cao, giúp mạch ổn định hơn.
+    \item Cuộn cảm: Được mắc nối tiếp giữa tụ đầu vào và tụ đầu ra. Cuộn cảm này có tác dụng điều chỉnh trở kháng của mạch.
+\end{enumerate}
+\subsection{Nguyên lý hoạt động }
+Mạch π phối hợp trở kháng giúp tối ưu hóa sự truyền tải công suất giữa các mạch với trở kháng đầu vào và đầu ra khác nhau. Khi tần số tín hiệu cao, mạch π tạo ra các điểm cộng hưởng bằng cách điều chỉnh giá trị của tụ điện và cuộn cảm, sao cho mạch đạt được trở kháng phù hợp với cả hai đầu, từ đó giảm mất mát công suất và cải thiện hiệu suất.
+\subsection{Ứng dụng }
+Mạch phối hợp trở khẳng chữ Pi ược dùng trong các mạch khuếch đại RF để truyền tín hiệu từ anten đến bộ thu hoặc từ bộ phát đến anten và cũng giúp lọc các tín hiệu nhiễu và tạo ra băng thông tần số mong muốn.
+\subsection{Ưu nhược điểm }
+Ưu điểm của mạch:
+\begin{enumerate}
+    \item Khả năng lọc nhiễu cao: Mạch π có thể hoạt động như một bộ lọc thấp, giúp loại bỏ các thành phần tần số cao không mong muốn, giúp tín hiệu ổn định hơn.
+    \item Phối hợp trở kháng dễ dàng: Với cấu trúc hai tụ điện song song, mạch π dễ dàng điều chỉnh và phối hợp trở kháng ở dải tần số cao.
+    \item Được ứng dụng rộng rãi trong RF: Mạch π rất phổ biến trong các mạch khuếch đại, anten, và các ứng dụng truyền tải tín hiệu RF do hiệu quả lọc và khả năng phối hợp trở kháng tốt.
+\end{enumerate}
+
+Nhược điểm của mạch:
+\begin{enumerate}
+    \item Kích thước và chi phí linh kiện: Vì sử dụng hai tụ điện và một cuộn cảm, kích thước và chi phí của mạch π có thể lớn hơn so với mạch chữ T, đặc biệt khi cần các linh kiện chất lượng cao cho ứng dụng RF.
+    \item Khó điều chỉnh trong các ứng dụng yêu cầu độ chính xác cao: Mạch π phù hợp với các ứng dụng có khoảng thay đổi trở kháng vừa phải. Khi cần phối hợp trở kháng có độ chính xác cao hơn, mạch π có thể gặp khó khăn hơn mạch chữ T.
+\end{enumerate}
+
+
+\subsection{Các bước tính toán}
+Để thiết kế một mạng pi, các thành phần trong mạng cần đảm bảo rằng các giá trị cảm kháng phải đối nghịch nhau – nghĩa là, nếu một thành phần là tụ điện, thì thành phần đối nghịch phải là cuộn cảm và ngược lại. Điều này giúp tạo ra một mạch mà nguồn và tải có thể thấy được một trở kháng tương đương để tối ưu hóa việc truyền tải năng lượng.
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{PI/Screenshot from 2024-11-05 21-27-14.png}
+    \caption{Mạch pi }
+    \label{fig:ten_label}
+\end{figure}
+
+\subsubsection{Low-pass}
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{PI-BT/Screenshot from 2024-11-05 22-27-50.png}
+    \caption{Mạch PI Low pass}
+    \label{fig:ten_label}
+\end{figure}
+
+Ta có 
+\begin{cases}
+    Q_1 = \dfrac{R_{\text{in}}}{X_1} = R_{\text{in}} \omega C_1 \\
+    Q_2 = \dfrac{R_l}{X_2} = R_l \omega C_2
+\end{cases}
+\Rightarrow
+\begin{cases}
+    C_1 = \dfrac{Q_1}{R_{\text{in}} \, \omega} \\
+    C_2 = \dfrac{Q_2}{RL \, \omega}
+\end{cases}
+
+
+
+Biến đổi sang mạch nối tiếp tương đương , ta có: 
+
+\begin{align*}
+    XA &= \omega L_1 ; \quad XB = \omega L_2 \\
+    Q_1 &= \frac{XA}{R_1} ; \quad Q_2 = \frac{XB}{R_1} \\
+    \Rightarrow L &= L_1 + L_2 = \frac{R_1}{\omega} (Q_1 + Q_2)
+\end{align*}
+
+
+\subsubsection{High-pass}
+
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{PI-BT/Screenshot from 2024-11-05 23-38-48.png}
+    \caption{Mạch PI high pass }
+    \label{fig:ten_label}
+\end{figure}
+
+
+
+
+Ta có: 
+\begin{cases}
+    Q_1 = \dfrac{R_{\text{in}}}{X_1} = \frac{R_{\text{in}} }{\omega L_1 }\\
+    Q_2 = \dfrac{R_{\text{l}}}{X_2} = \frac{R_{\text{l}} }{\omega L_2 }
+\end{cases}
+\Rightarrow
+\begin{cases}
+    L_1 = \dfrac{R_{in}}{Q_1 \, \omega} \\
+    L_2 = \dfrac{R_l}{Q2 \, \omega}
+\end{cases}
+
+
+Biến đổi mạch tương đương ta được 
+
+
+\begin{cases}
+    Q_1 = \dfrac{X_A}{R_1} \ with \ X_A = \frac{1}{\omega C_1 }\\
+    Q_2 = \dfrac{X_B}{R_1} \ with \ X_B = \frac{1}{\omega C_2 }
+\end{cases}
+
+Sau đó ta có
+
+\begin{cases}
+    C_1 = \dfrac{1}{\omega R_1 Q_1} \\
+    C_2 = \dfrac{1}{\omega R_1 Q_2} 
+\end{cases}
+\Rightarrow
+\begin{equation}
+    \large
+    C = \frac{C_1 C_2}{C_1 + C_2} = \frac{1}{\omega R_1} . \frac{1}{Q_1 + Q_2}
+\end{equation}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Mạch phối hợp trở kháng chữ T }
+\subsection{Giới thiệu về mạch trở kháng chữ T}
+
+Mạch phối hợp trở kháng chữ T là một loại mạch dùng để phối hợp trở kháng trong các mạch truyền tải RF, đặc biệt khi cần truyền năng lượng hiệu quả giữa các mạch có trở kháng đầu vào và đầu ra khác nhau. Mạch này có cấu hình hình chữ "T", và cũng như mạch π, nó giúp giảm thiểu tổn thất công suất bằng cách điều chỉnh trở kháng giữa các tầng của mạch.
+\subsection{Cấu trúc của mạch trở kháng chữ T}
+\begin{enumerate}
+    \item Hai cuộn cảm: Được mắc nối tiếp giữa đầu vào và đầu ra. Hai cuộn cảm này có tác dụng thay đổi trở kháng sao cho phù hợp với yêu cầu truyền năng lượng giữa hai mạch.
+    \item Tụ điện: Được mắc giữa hai cuộn cảm và nối xuống đất, tạo thành chân giữa của chữ T.
+\end{enumerate}
+\subsection{Nguyên lý hoạt dộng}
+Mạch chữ T phối hợp trở kháng hoạt động dựa trên sự kết hợp của các thành phần điện cảm (L) và điện dung (C) để tạo ra một mạch cộng hưởng, từ đó đạt được trở kháng phối hợp giữa hai mạch có trở kháng khác nhau. Khi có sự cộng hưởng, năng lượng sẽ được truyền tải hiệu quả hơn, làm giảm mất mát công suất và tối ưu hóa hiệu suất truyền.
+
+Khi được thiết kế đúng cách, mạch chữ T có thể giúp điều chỉnh trở kháng một cách linh hoạt qua các giá trị của cuộn cảm và tụ điện. Tuy nhiên, giá trị cụ thể của chúng sẽ phụ thuộc vào tần số hoạt động và yêu cầu phối hợp trở kháng.
+\subsection{Ứng dụng }
+\begin{enumerate}
+    \item Truyền tải RF: Mạch chữ T được sử dụng rộng rãi trong các thiết bị phát và thu sóng vô tuyến.
+    \item Bộ lọc tín hiệu: Ngoài việc phối hợp trở kháng, mạch chữ T cũng giúp lọc các tín hiệu nhiễu, loại bỏ tần số không mong muốn.
+    \item Điều chỉnh mạch: Mạch chữ T có thể điều chỉnh được để đạt được trở kháng mong muốn giữa các tầng khác nhau của mạch RF hoặc mạch khuếch đại.
+\end{enumerate}
+\subsection{Ưu nhược điểm}
+Ưu điểm của mạch:
+\begin{enumerate}
+    \item Phạm vi điều chỉnh rộng: Mạch chữ T có thể điều chỉnh hiệu quả trong nhiều trường hợp khác nhau và thường linh hoạt hơn mạch π, đặc biệt khi cần phối hợp trở kháng với độ chính xác cao.
+    \item Kích thước nhỏ gọn hơn: Sử dụng hai cuộn cảm mắc nối tiếp và một tụ điện, mạch chữ T thường có thiết kế nhỏ gọn và ít tốn diện tích hơn, đặc biệt phù hợp cho các mạch in PCB.
+    \item Ít nhiễu và ổn định ở tần số cao: Mạch chữ T thường có độ ổn định cao ở tần số cao, đặc biệt trong các ứng dụng yêu cầu hiệu suất và độ chính xác cao.
+\end{enumerate}
+Nhược điểm của mạch:
+\begin{enumerate}
+    \item Khả năng lọc nhiễu thấp hơn: So với mạch π, mạch chữ T có khả năng lọc nhiễu tần số cao kém hơn, do đó có thể không hiệu quả trong việc loại bỏ các tín hiệu nhiễu cao.
+    \item Khó thiết kế và tính toán hơn: Để tối ưu hóa mạch chữ T, cần tính toán chính xác hơn.
+\end{enumerate}
+\subsection{Các bước tính toán }
+\subsubsection{Low-pass}
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{t-bt/Screenshot from 2024-11-05 22-59-28.png}
+    \caption{Mạch T low pass }
+    \label{fig:ten_label}
+\end{figure}
+
+Ta có 
+\begin{align}
+    \ X1 = \omega L1 \ and \ X2 = \omega L2
+\end{align}
+
+Lại có:
+
+\begin{cases}
+    Q_1 = \dfrac{X_1}{R_{in}} = \frac{\omega L_1}{R_{in}}\\
+    Q_2 = \dfrac{X_2}{R_L} = \frac{\omega L_2}{R_L}
+\end{cases}
+\Rightarrow
+\begin{cases}
+    L_1 = \dfrac{Q1 R_{in}}{\omega} \\
+    L_2 = \dfrac{Q2 R_{l}}{\omega}
+\end{cases}
+    
+Tụ Cp được chia thành hai tụ CA và CB ứng với XA và Xb
+
+\begin{cases}
+    Q_1 = R_1 \omega C_a\\
+    Q_2 = R_1 \omega C_b
+\end{cases}
+\Rightarrow
+\begin{cases}
+    C_a = \frac{Q_1}{R_1 \omega} \\
+    C_b = \frac{Q_2}{R_1 \omega}
+\end{cases}
+\Rightarrow
+\begin{cases}
+C = C_1 + C_2 = \frac{Q_! + Q_2}{R_1 \omega}
+\end{cases}
+
+
+\subsubsection{high-pass}
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{t-bt/Screenshot from 2024-11-05 22-59-39.png}
+    \caption{Mạch T high pass }
+    \label{fig:ten_label}
+\end{figure}
+
+Ta có:
+\begin{cases}
+    X_1 = \frac{1}{\omega C_1 }\\
+    X_2 = \frac{1}{\omega C_2}
+\end{cases}
+\Rightarrow
+\begin{cases}
+        Q_1 = \frac{X_1}{R_{in}} = \frac{1}{\omega C_1 R_{in}}\\
+    Q_2 = \frac{X_2}{R_l} = \frac{1}{\omega C_1 R_{l}}
+\end{cases}
+\Rightarrow
+\begin{cases}
+     C_1 = \frac{1}{Q_1 R_{in} \omega} \\
+    C_2 = \frac{1}{Q_2 R_{l} \omega}
+\end{cases}
+
+
+Cuộn cảm Lp được chia thành hai cuộn cảm với XA = ωLA và XB= ωLB
+
+\begin{cases}
+    Q_1 = \dfrac{R_1}{X_A} = \frac{R_1}{\omega L_A}\\
+     Q_2 = \dfrac{R_1}{X_B} = \frac{R_1}{\omega L_B}
+\end{cases}
+\Rightarrow
+\begin{cases}
+    L_A = \frac{R_1}{\omega Q_1}\\
+    L_B = \frac{R_1}{\omega Q_2}
+\end{cases}
+\Rightarrow
+\begin{equation}
+     L = \frac{L_A.L_B}{L_A+L_B} = \frac{R_1 \omega}{Q_1 + Q_2}
+\end{equation}
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
