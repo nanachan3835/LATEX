@@ -1,0 +1,46 @@
+Họ và tên: DƯƠNG QUỐC DŨNG
+MSSV: 20213835
+
+Q1:
+Đoạn mã trên có vẫn đề khi sử dụng thanh ghi CL để chỉ định số lần dịch bit
+
+Lí do như sau:
+-kích thước giới hạn của thanh ghi CL (một thanh 8 bit có thể lưu trữ từ 0-255), vì vậy nếu dịch chuyển số lượng
+lớn các bit thì sẽ không đủ khi sử dụng CL
+
+-mất thông tin khi dịch chuyển nhiều lần: Khi dịch chuyển nhiều thì thì các bit low có thể  bị 
+dịch chuyển ngoài và mất đi => làm thay đổi dữ liệu ban đầu
+
+-làm giảm tính linh hoạt của mã: nếu muốn thay đổi số lần dịch chuyển phải sửa đổi trực tiếp giá trị trong lệnh
+
+
+
+
+Q2:
+
+
+
+Q3:
+Đoạn code trên load giá trị vào trong BL với giá trị là 2, và sau đó thực hiện phép chia trong thanh ghi AX, kết quả được lưu AL và phần dư sẽ được lưu
+trữ trong AH
+
+Muốn code nhanh hơn, ta có thể thực hiện phép dịch bit như trong lập trình C, bằng cách sử dụng câu lệnh sau:
+SAR AX, 1 , đoạn code trên sẽ thực hiện dịch 1 bit để có thể thực hiện phép chia 2(như trong c)
+
+
+Q4:
+Tính toán đoạn code sau: 
+SUB AX, [DI + 3835]
+
+
+ta sẽ có 1 byte cho lệnh SUB(opcode: Mã lệnh cho phép toán trừ), sau đó ta sẽ phải truy cập bộ nhớ bằng cách sử dụng dịch chuyển và phải tốn thêm 1 byte(Byte modr/m),
+và cuối cùng là dịch chuyển giá trị 23835 là dịch chuyển 16bit => sẽ mất 2byte để mã hóa
+
+Q6:
+Dịch 3835h trong hệ thống
+1. Lấy lệnh : CPU lấy lệnh MOV al,3835h từ bộ nhớ, lệnh được đặt vào thanh ghi trên IR
+2. Giải mã: Bộ điều khiển giải mã lệnh trong IR
+3.Thực thi Giá trị tức thời 3835h được đặt trên bus dữ liệu nội bộ, thanh ghi AL lấy giá trị từ bus dữ liệu nội bộ Thanh ghi AL lấy giá trị từ bus dữ liệu, thanh ghi AL giờ chuwasgias trị 3835h 
+
+
+
